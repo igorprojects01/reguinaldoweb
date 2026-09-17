@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serviços — Apoio Acadêmico | Assessoria Company</title>
+  <meta name="description" content="TCC, relatórios de estágio, artigos, projetos de pesquisa, revisão, formatação ABNT e apresentações. Consulte o orçamento pelo WhatsApp.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Serviços — Assessoria Company">
+  <meta property="og:locale" content="pt_BR">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="servicos">
+  <header>
+    <nav class="nav" id="nav" aria-label="Navegação principal">
+      <div class="nav__inner">
+        <a href="index.html" class="nav__brand" aria-label="Assessoria Company — Início"><span class="nav__logo" id="nav-logo"></span><span class="nav__name" id="nav-name"></span></a>
+        <ul class="nav__links" id="nav-links" role="list"></ul>
+        <div class="nav__side">
+          <button class="nav__toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-mobile"><span></span><span></span></button>
+        </div>
+      </div>
+      <div class="menu-mobile" id="menu-mobile" hidden>
+        <div class="menu-mobile__inner">
+          <ul class="menu-mobile__links" id="menu-mobile-links" role="list"></ul>
+          <div class="menu-mobile__foot"><span class="menu-mobile__phone" id="menu-mobile-phone"></span><span class="menu-mobile__email" id="menu-mobile-email"></span></div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="page-hero" aria-label="Cabeçalho da página serviços">
+      <div class="page-hero__container">
+        <nav class="breadcrumb reveal" aria-label="Caminho de navegação"><a href="index.html">Início</a><span aria-hidden="true">/</span><span aria-current="page">Serviços</span></nav>
+        <p class="page-hero__eyebrow reveal"><span class="page-num" id="services-count">11</span> serviços de acompanhamento</p>
+        <h1 class="page-hero__title reveal">Cada etapa do seu trabalho, <em>bem conduzida.</em></h1>
+        <p class="page-hero__sub reveal">Toque em “Consultar orçamento” em qualquer serviço — o WhatsApp abre com uma mensagem pronta sobre aquele tema.</p>
+      </div>
+    </section>
+
+    <section class="services services--page">
+      <div class="services__container">
+        <div class="services__header">
+          <p class="kicker kicker--dark reveal" id="services-label"></p>
+          <h2 class="services__title reveal" id="services-title"></h2>
+          <p class="services__subtitle reveal" id="services-subtitle"></p>
+        </div>
+        <div class="services__list reveal" id="services-list" role="list"></div>
+        <div class="services__foot reveal">
+          <p>Não encontrou o que procura? Fale sobre a sua necessidade específica.</p>
+          <a class="btn btn--ink" href="contato.html">Falar sobre meu caso <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact">
+      <div class="contact__ring" aria-hidden="true"></div>
+      <div class="contact__container">
+        <p class="kicker kicker--light reveal" id="contact-label"></p>
+        <h2 class="contact__title reveal" id="contact-title"></h2>
+        <p class="contact__subtitle reveal" id="contact-subtitle"></p>
+        <div class="contact__actions reveal">
+          <a class="btn btn--bronze glow-btn spark-btn" id="contact-cta" href="#" target="_blank" rel="noopener noreferrer"></a>
+          <a class="contact__email" id="contact-email" href="#"></a>
+        </div>
+        <p class="contact__sign" id="contact-sign"></p>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><div class="footer__inner"><div class="footer__grid"><div class="footer__brand"><p class="footer__company" id="footer-company"></p><p class="footer__pro" id="footer-pro"></p><p class="footer__text" id="footer-text"></p></div><nav class="footer__nav" aria-label="Navegação do rodapé"><p class="footer__heading">Navegação</p><ul id="footer-nav" role="list"></ul></nav><div class="footer__contact"><p class="footer__heading">Contato</p><a class="footer__link" id="footer-whatsapp" href="#" target="_blank" rel="noopener noreferrer"></a><a class="footer__link" id="footer-email" href="#"></a></div></div><div class="footer__base"><p class="footer__credit" id="footer-credit"></p><p class="footer__year">© <span id="footer-year"></span> Todos os direitos reservados.</p></div></div></footer>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

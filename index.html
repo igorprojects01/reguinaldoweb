@@ -3,39 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reginaldo Guedes — Apoio Acadêmico e Trabalhos Universitários</title>
-  <meta name="description" content="Professor e escritor, Reginaldo Guedes oferece apoio na elaboração, revisão e formatação de trabalhos acadêmicos para estudantes universitários. TCC, relatórios de estágio, artigos e normas ABNT.">
-
-  <!-- Open Graph -->
+  <title>Assessoria Company — Suporte e Orientação Acadêmica</title>
+  <meta name="description" content="Assessoria Company: suporte, consultoria e orientação acadêmica para estudantes — TCCs, projetos, artigos, relatórios de estágio e formatação ABNT.">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Reginaldo Guedes — Apoio Acadêmico">
-  <meta property="og:description" content="Professor, escritor e apoio acadêmico para estudantes universitários. Elaboração, revisão e formatação de trabalhos.">
+  <meta property="og:title" content="Assessoria Company — Suporte e Orientação Acadêmica">
+  <meta property="og:description" content="Suporte na elaboração, revisão e formatação de trabalhos acadêmicos, com a condução e o rigor de quem vive o universo acadêmico.">
   <meta property="og:locale" content="pt_BR">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body data-page="inicio">
 
-  <!-- Cabeçalho / Navegação -->
   <header>
     <nav class="nav" id="nav" aria-label="Navegação principal">
       <div class="nav__inner">
-        <a href="#inicio" class="nav__brand" aria-label="Ir para o início">
+        <a href="index.html" class="nav__brand" aria-label="Assessoria Company — Início">
+          <span class="nav__logo" id="nav-logo"></span>
           <span class="nav__name" id="nav-name"></span>
         </a>
         <ul class="nav__links" id="nav-links" role="list"></ul>
         <div class="nav__side">
-          <a class="nav__phone" id="nav-phone" href="#" target="_blank" rel="noopener noreferrer"></a>
-          <button class="nav__toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-links">
+          <button class="nav__toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-mobile">
             <span></span><span></span>
           </button>
         </div>
       </div>
-
-      <!-- Menu mobile em tela cheia -->
       <div class="menu-mobile" id="menu-mobile" hidden>
         <div class="menu-mobile__inner">
           <ul class="menu-mobile__links" id="menu-mobile-links" role="list"></ul>
@@ -49,116 +43,61 @@
   </header>
 
   <main>
+    <!-- Capa editorial — Assessoria Company -->
+    <section class="cover" aria-label="Assessoria Company — apresentação">
+      <!-- Átrio: composição orgânica + tipográfica que respira com o cursor -->
+      <div class="atrium" id="atrium" aria-hidden="true">
+        <span class="atrium__word" id="atrium-word">A</span>
+        <span class="atrium__blob"></span>
+        <span class="atrium__ring"></span>
+        <span class="atrium__ring atrium__ring--2"></span>
+        <span class="atrium__rule"></span>
+      </div>
 
-    <!-- Hero -->
-    <section class="hero" id="inicio">
-      <div class="hero__container">
-
-        <div class="hero__content">
-          <p class="hero__idline reveal" id="hero-idline"></p>
-          <h1 class="hero__name reveal" id="hero-name"></h1>
-          <p class="hero__role reveal" id="hero-role"></p>
-          <p class="hero__subtitle reveal" id="hero-subtitle"></p>
-          <div class="hero__actions reveal">
-            <a class="btn btn--ink glow-btn spark-btn" id="hero-cta" href="#" target="_blank" rel="noopener noreferrer"></a>
-            <a class="btn btn--ghost" id="hero-cta2" href="#processo"></a>
-          </div>
-          <p class="hero__hint reveal"><span class="hero__hint-line" aria-hidden="true"></span><span id="hero-hint"></span></p>
+      <div class="cover__container">
+        <!-- Espaço do logo: CONFIG.company.companyLogo (com reserva elegante) -->
+        <div class="cover__logo reveal" id="home-logo"></div>
+        <p class="cover__eyebrow reveal" id="home-eyebrow"></p>
+        <h1 class="cover__title reveal" id="home-title"></h1>
+        <p class="cover__phrase reveal" id="home-phrase"></p>
+        <p class="cover__explore reveal"><span class="cover__explore-line" aria-hidden="true"></span><span id="home-explore"></span></p>
+        <div class="cover__actions reveal">
+          <a class="btn btn--ink glow-btn spark-btn" id="home-cta-empresa" href="empresa.html"></a>
+          <a class="btn btn--ghost" id="home-cta-servicos" href="servicos.html"></a>
         </div>
-
-        <div class="hero__photo reveal">
-          <div class="hero__frame" id="hero-photo">
-          </div>
-        </div>
-
+        <nav class="cover__index reveal" aria-label="Explore o site">
+          <span class="cover__index-label" id="home-index-label"></span>
+          <a href="empresa.html"><b>01</b> Empresa</a>
+          <a href="servicos.html"><b>02</b> Serviços</a>
+          <a href="como-funciona.html"><b>03</b> Como funciona</a>
+          <a href="contato.html"><b>04</b> Contato</a>
+        </nav>
       </div>
     </section>
-
-    <!-- Frase / pausa editorial -->
-    <section class="statement" aria-label="Citação de Reginaldo Guedes">
-      <div class="statement__container">
-        <p class="statement__mark" aria-hidden="true">“</p>
-        <blockquote class="statement__text reveal" id="statement-text"></blockquote>
-        <cite class="statement__author" id="statement-author"></cite>
-      </div>
-    </section>
-
-    <!-- Sobre -->
-    <section class="about" id="sobre">
-      <div class="about__container">
-        <div class="about__photo reveal">
-          <div class="about__areas">
-            <span class="about__areas-line" aria-hidden="true"></span>
-            <p class="about__areas-text" id="about-areas"></p>
-          </div>
-          <div class="about__frame" id="about-photo">
-            <span class="about__frame-note" id="about-frame-note"></span>
-            <p class="about__caption" id="about-caption"></p>
-          </div>
-        </div>
-
-        <div class="about__content">
-          <p class="kicker reveal" id="about-label"></p>
-          <h2 class="about__title reveal" id="about-title"></h2>
-          <p class="about__body reveal" id="about-body"></p>
-
-          <ul class="about__roles reveal" id="about-roles" role="list"></ul>
-
-          <div class="about__fields reveal" id="about-fields"></div>
-
-          <div class="about__email-block reveal">
-            <span class="about__email-label" id="about-email-label"></span>
-            <a class="about__email" id="about-email" href="#"></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Serviços -->
-    <section class="services" id="servicos">
-      <div class="services__container">
-        <div class="services__header">
-          <p class="kicker kicker--dark reveal" id="services-label"></p>
-          <h2 class="services__title reveal" id="services-title"></h2>
-          <p class="services__subtitle reveal" id="services-subtitle"></p>
-        </div>
-        <div class="services__list reveal" id="services-list" role="list"></div>
-      </div>
-    </section>
-
-    <!-- Como funciona -->
-    <section class="process" id="processo">
-      <div class="process__container">
-        <p class="kicker reveal" id="process-label"></p>
-        <div class="process__head">
-          <h2 class="process__title reveal" id="process-title"></h2>
-          <p class="process__note reveal" id="process-note"></p>
-        </div>
-        <div class="process__steps reveal" id="process-steps"></div>
-      </div>
-    </section>
-
-    <!-- Contato final -->
-    <section class="contact" id="contato">
-      <div class="contact__ring" aria-hidden="true"></div>
-      <div class="contact__container">
-        <p class="kicker kicker--light reveal" id="contact-label"></p>
-        <h2 class="contact__title reveal" id="contact-title"></h2>
-        <p class="contact__subtitle reveal" id="contact-subtitle"></p>
-        <div class="contact__actions reveal">
-          <a class="btn btn--bronze glow-btn spark-btn" id="contact-cta" href="#" target="_blank" rel="noopener noreferrer"></a>
-          <a class="contact__email" id="contact-email" href="#"></a>
-        </div>
-        <p class="contact__sign" id="contact-sign"></p>
-      </div>
-    </section>
-
   </main>
 
   <footer class="footer">
     <div class="footer__inner">
-      <p class="footer__text" id="footer-text"></p>
-      <p class="footer__credit" id="footer-credit"></p>
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <p class="footer__company" id="footer-company"></p>
+          <p class="footer__pro" id="footer-pro"></p>
+          <p class="footer__text" id="footer-text"></p>
+        </div>
+        <nav class="footer__nav" aria-label="Navegação do rodapé">
+          <p class="footer__heading">Navegação</p>
+          <ul id="footer-nav" role="list"></ul>
+        </nav>
+        <div class="footer__contact">
+          <p class="footer__heading">Contato</p>
+          <a class="footer__link" id="footer-whatsapp" href="#" target="_blank" rel="noopener noreferrer"></a>
+          <a class="footer__link" id="footer-email" href="#"></a>
+        </div>
+      </div>
+      <div class="footer__base">
+        <p class="footer__credit" id="footer-credit"></p>
+        <p class="footer__year">© <span id="footer-year"></span> Todos os direitos reservados.</p>
+      </div>
     </div>
   </footer>
 

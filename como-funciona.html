@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Como funciona — Passo a passo | Assessoria Company</title>
+  <meta name="description" content="Um percurso simples e conduzido com atenção: explique sua necessidade, converse pelo WhatsApp, receba o orçamento e acompanhe a entrega.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Como funciona — Assessoria Company">
+  <meta property="og:locale" content="pt_BR">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="processo">
+  <header>
+    <nav class="nav" id="nav" aria-label="Navegação principal">
+      <div class="nav__inner">
+        <a href="index.html" class="nav__brand" aria-label="Assessoria Company — Início"><span class="nav__logo" id="nav-logo"></span><span class="nav__name" id="nav-name"></span></a>
+        <ul class="nav__links" id="nav-links" role="list"></ul>
+        <div class="nav__side">
+          <button class="nav__toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-mobile"><span></span><span></span></button>
+        </div>
+      </div>
+      <div class="menu-mobile" id="menu-mobile" hidden>
+        <div class="menu-mobile__inner">
+          <ul class="menu-mobile__links" id="menu-mobile-links" role="list"></ul>
+          <div class="menu-mobile__foot"><span class="menu-mobile__phone" id="menu-mobile-phone"></span><span class="menu-mobile__email" id="menu-mobile-email"></span></div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="page-hero" aria-label="Cabeçalho da página como funciona">
+      <div class="page-hero__container">
+        <nav class="breadcrumb reveal" aria-label="Caminho de navegação"><a href="index.html">Início</a><span aria-hidden="true">/</span><span aria-current="page">Como funciona</span></nav>
+        <p class="page-hero__eyebrow reveal"><span class="page-num">04</span> passos, zero complicação</p>
+        <h1 class="page-hero__title reveal">Um percurso simples, <em>conduzido com atenção.</em></h1>
+        <p class="page-hero__sub reveal">Sem compromisso: conte sua necessidade e receba uma orientação clara pelo WhatsApp.</p>
+      </div>
+    </section>
+
+    <section class="process process--page">
+      <div class="process__container">
+        <p class="kicker reveal" id="process-label"></p>
+        <div class="process__head">
+          <h2 class="process__title reveal" id="process-title"></h2>
+          <p class="process__note reveal" id="process-note"></p>
+        </div>
+        <div class="process__steps reveal" id="process-steps"></div>
+        <div class="process__cta reveal">
+          <a class="btn btn--ink" href="contato.html">Começar agora <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact">
+      <div class="contact__ring" aria-hidden="true"></div>
+      <div class="contact__container">
+        <p class="kicker kicker--light reveal" id="contact-label"></p>
+        <h2 class="contact__title reveal" id="contact-title"></h2>
+        <p class="contact__subtitle reveal" id="contact-subtitle"></p>
+        <div class="contact__actions reveal">
+          <a class="btn btn--bronze glow-btn spark-btn" id="contact-cta" href="#" target="_blank" rel="noopener noreferrer"></a>
+          <a class="contact__email" id="contact-email" href="#"></a>
+        </div>
+        <p class="contact__sign" id="contact-sign"></p>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><div class="footer__inner"><div class="footer__grid"><div class="footer__brand"><p class="footer__company" id="footer-company"></p><p class="footer__pro" id="footer-pro"></p><p class="footer__text" id="footer-text"></p></div><nav class="footer__nav" aria-label="Navegação do rodapé"><p class="footer__heading">Navegação</p><ul id="footer-nav" role="list"></ul></nav><div class="footer__contact"><p class="footer__heading">Contato</p><a class="footer__link" id="footer-whatsapp" href="#" target="_blank" rel="noopener noreferrer"></a><a class="footer__link" id="footer-email" href="#"></a></div></div><div class="footer__base"><p class="footer__credit" id="footer-credit"></p><p class="footer__year">© <span id="footer-year"></span> Todos os direitos reservados.</p></div></div></footer>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

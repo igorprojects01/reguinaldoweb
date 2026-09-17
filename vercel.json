@@ -4,5 +4,11 @@
   "outputDirectory": ".",
   "installCommand": "echo \"sem dependencias para instalar\"",
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/empresa", "destination": "/empresa.html" },
+    { "source": "/servicos", "destination": "/servicos.html" },
+    { "source": "/como-funciona", "destination": "/como-funciona.html" },
+    { "source": "/contato", "destination": "/contato.html" }
+  ]
 }
