@@ -16,8 +16,8 @@ const CONFIG = {
       "Foco em apoio acadêmico",
     ],
     email: "professorreginaldoguedes@gmail.com",
-    heroPhoto: "public/images/professor1.png",   // FOTO DO HERO — primeira seção do site
-    aboutPhoto: "public/images/professor2.png",  // FOTO DO SOBRE — seção "Quem é Reginaldo"
+    heroPhoto: "public/images/reguinaldo1.png",   // FOTO DO HERO — primeira seção do site
+    aboutPhoto: "public/images/reginaldo3.png",  // FOTO DO SOBRE — seção "Quem é Reginaldo"
     photoAlt: "Retrato do professor Reginaldo Guedes",
     photoCaption: "Professor Reginaldo Guedes",
     frameNote: "Professor de Filosofia e Ensino Religioso",
@@ -67,6 +67,9 @@ const CONFIG = {
     body:
       "Como professor de Filosofia e Ensino Religioso e escritor, conheço de perto a disciplina que um bom trabalho exige: pesquisa, estrutura, argumento e escrita clara. Dedico essa experiência ao apoio de estudantes universitários que precisam de companhia competente para transformar ideias em trabalhos bem conduzidos.",
     emailLabel: "E-mail para contato",
+
+    // Áreas de atuação — bloco decorativo acima da foto (separadas por "·")
+    areas: ["Filosofia", "Ensino Religioso", "Escrita Acadêmica"],
 
     // Informações de perfil exibidas como lista editorial
     roles: [

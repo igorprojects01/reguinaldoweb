@@ -12,15 +12,6 @@
     return message ? base + "?text=" + encodeURIComponent(message) : base;
   }
 
-  function initials(name) {
-    return name
-      .split(" ")
-      .slice(0, 2)
-      .map(function (w) { return w.charAt(0); })
-      .join(".")
-      .concat(".");
-  }
-
   function setPhoto(containerId, src, alt, fallbackText, className) {
     var container = document.getElementById(containerId);
     var existing = container.querySelector("img.photo-img, .photo-fallback");
@@ -118,8 +109,6 @@
 
     document.getElementById("hero-cta2").textContent = h.ctaSecondary;
     document.getElementById("hero-hint").textContent = h.scrollHint;
-    document.getElementById("hero-caption").textContent = p.photoCaption;
-    document.getElementById("hero-monogram").textContent = initials(p.name);
 
     setPhoto("hero-photo", p.heroPhoto, p.photoAlt, "Retrato de Reginaldo", "hero__img");
   }
@@ -184,6 +173,8 @@
 
     document.getElementById("about-caption").textContent = p.name;
     document.getElementById("about-frame-note").textContent = p.frameNote;
+    var areasEl = document.getElementById("about-areas");
+    if (areasEl && a.areas) { areasEl.textContent = a.areas.join(" · "); }
 
     setPhoto("about-photo", p.aboutPhoto, p.photoAlt, "Foto de Reginaldo", "about__img");
   }
@@ -366,6 +357,218 @@
     items.forEach(function (el) { observer.observe(el); });
   }
 
+  function initGlow() {
+    var targets = document.querySelectorAll(".glow-btn");
+
+    targets.forEach(function (el) {
+      el.addEventListener("pointermove", function (e) {
+        var rect = el.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var cx = rect.width / 2;
+        var cy = rect.height / 2;
+
+        var dx = x - cx;
+        var dy = y - cy;
+
+        var kx = dx !== 0 ? cx / Math.abs(dx) : Infinity;
+        var ky = dy !== 0 ? cy / Math.abs(dy) : Infinity;
+        var edge = Math.min(Math.max(1 / Math.min(kx, ky), 0), 1);
+
+        var angle = 0;
+        if (dx !== 0 || dy !== 0) {
+          var radians = Math.atan2(dy, dx);
+          angle = radians * (180 / Math.PI) + 90;
+          if (angle < 0) angle += 360;
+        }
+
+        el.style.setProperty("--edge-proximity", edge.toFixed(3));
+        el.style.setProperty("--cursor-angle", angle.toFixed(3) + "deg");
+      });
+
+      el.addEventListener("pointerleave", function () {
+        el.style.setProperty("--edge-proximity", "0");
+      });
+    });
+  }
+
+  function initGlare() {
+    var targets = document.querySelectorAll(".btn");
+
+    targets.forEach(function (el) {
+      if (el.querySelector(":scope > .btn-glare")) return;
+
+      var computed = window.getComputedStyle(el);
+      if (computed.position === "static") {
+        el.style.position = "relative";
+      }
+
+      var glare = document.createElement("span");
+      glare.className = "btn-glare";
+      glare.setAttribute("aria-hidden", "true");
+      el.insertBefore(glare, el.firstChild);
+
+      function updateSpotlight(clientX, clientY) {
+        var rect = el.getBoundingClientRect();
+        var x = ((clientX - rect.left) / rect.width) * 100;
+        var y = ((clientY - rect.top) / rect.height) * 100;
+        glare.style.setProperty("--glare-x", x.toFixed(1) + "%");
+        glare.style.setProperty("--glare-y", y.toFixed(1) + "%");
+      }
+
+      function triggerSweep() {
+        glare.classList.remove("is-glaring");
+        // força reflow para poder repetir a animação
+        void glare.offsetWidth;
+        glare.classList.add("is-glaring");
+      }
+
+      el.addEventListener("pointerenter", function (e) {
+        if (e.pointerType === "touch") return;
+        updateSpotlight(e.clientX, e.clientY);
+        triggerSweep();
+      });
+
+      el.addEventListener("pointermove", function (e) {
+        if (e.pointerType === "touch") return;
+        updateSpotlight(e.clientX, e.clientY);
+      });
+
+      el.addEventListener("pointerleave", function () {
+        glare.classList.remove("is-glaring");
+      });
+
+      el.addEventListener("focus", function () {
+        glare.style.setProperty("--glare-x", "50%");
+        glare.style.setProperty("--glare-y", "50%");
+        triggerSweep();
+      });
+
+      // Mobile: sem hover, então dispara no toque
+      el.addEventListener(
+        "touchstart",
+        function () {
+          glare.style.setProperty("--glare-x", "50%");
+          glare.style.setProperty("--glare-y", "50%");
+          triggerSweep();
+        },
+        { passive: true }
+      );
+    });
+  }
+
+  function initClickSpark() {
+    var sparkColor = "#8a5a2b"; // tom bronze, combina com a paleta do site
+    var sparkSize = 10;
+    var sparkRadius = 15;
+    var sparkCount = 8;
+    var duration = 400;
+
+    // Todos os botões do site (estáticos + criados via JS)
+    var targets = document.querySelectorAll(".btn, .service-cta, .spark-btn");
+
+    targets.forEach(function (el) {
+      if (el.querySelector(":scope > .spark-canvas")) return;
+      el.classList.add("spark-btn");
+
+      var computed = window.getComputedStyle(el);
+      if (computed.position === "static") {
+        el.style.position = "relative";
+      }
+
+      var canvas = document.createElement("canvas");
+      canvas.className = "spark-canvas";
+      el.appendChild(canvas);
+
+      var ctx = canvas.getContext("2d");
+
+      function resize() {
+        var w = Math.ceil(el.offsetWidth) || Math.ceil(el.getBoundingClientRect().width);
+        var h = Math.ceil(el.offsetHeight) || Math.ceil(el.getBoundingClientRect().height);
+        if (w > 0) canvas.width = w;
+        if (h > 0) canvas.height = h;
+      }
+      resize();
+      window.addEventListener("resize", resize);
+      // Recalcula após fontes/layout assentarem (evita canvas 0x0)
+      setTimeout(resize, 100);
+      setTimeout(resize, 500);
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(resize);
+      }
+
+      var sparks = [];
+      var drawing = false;
+
+      function easeOut(t) {
+        return t * (2 - t);
+      }
+
+      function draw() {
+        drawing = true;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        var now = performance.now();
+
+        sparks = sparks.filter(function (spark) {
+          var elapsed = now - spark.start;
+          if (elapsed >= duration) return false;
+
+          var progress = elapsed / duration;
+          var eased = easeOut(progress);
+          var distance = eased * sparkRadius;
+          var lineLength = sparkSize * (1 - eased);
+
+          var x1 = spark.x + distance * Math.cos(spark.angle);
+          var y1 = spark.y + distance * Math.sin(spark.angle);
+          var x2 = spark.x + (distance + lineLength) * Math.cos(spark.angle);
+          var y2 = spark.y + (distance + lineLength) * Math.sin(spark.angle);
+
+          ctx.strokeStyle = sparkColor;
+          ctx.lineWidth = 2;
+          ctx.globalAlpha = 1 - progress;
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+
+          return true;
+        });
+
+        if (sparks.length > 0) {
+          requestAnimationFrame(draw);
+        } else {
+          drawing = false;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+
+      el.addEventListener("click", function (e) {
+        resize();
+        var rect = el.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        // Clique via teclado não tem clientX/Y -> usa o centro
+        if (!e.clientX && !e.clientY) {
+          x = rect.width / 2;
+          y = rect.height / 2;
+        }
+        var now = performance.now();
+
+        for (var i = 0; i < sparkCount; i++) {
+          sparks.push({
+            x: x,
+            y: y,
+            angle: (2 * Math.PI * i) / sparkCount,
+            start: now,
+          });
+        }
+
+        if (!drawing) requestAnimationFrame(draw);
+      });
+    });
+  }
+
   // ── Init ─────────────────────────────────────────────────────
   function init() {
     renderNav();
@@ -377,6 +580,9 @@
     renderContact();
     initScroll();
     initReveal();
+    initGlow();
+    initGlare();
+    initClickSpark();
   }
 
   document.addEventListener("DOMContentLoaded", init);
