@@ -28,8 +28,7 @@ const CONFIG = {
       "Foco em apoio acadêmico",
     ],
     email: "professorreginaldoguedes@gmail.com",
-    heroPhoto: "public/images/reguinaldo1.png",   // (RESERVA — a Home atual não exibe foto)
-    aboutPhoto: "public/images/reguinaldo1.png?v=2",  // FOTO DE REGINALDO — seção aprovada em "Conheça nossa empresa"
+    aboutPhoto: "public/images/reginaldo1.png",  // FOTO DE REGINALDO — seção aprovada em "Conheça nossa empresa"
     photoAlt: "Retrato do professor Reginaldo Guedes",
     photoCaption: "Professor Reginaldo Guedes",
     frameNote: "Professor de Filosofia e Ensino Religioso",
