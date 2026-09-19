@@ -129,7 +129,7 @@
     });
 
     var mmPhone = el("menu-mobile-phone");
-    if (mmPhone) mmPhone.textContent = "WhatsApp " + CONFIG.whatsapp.display;
+    if (mmPhone) mmPhone.textContent = "Falar no WhatsApp";
     var mmEmail = el("menu-mobile-email");
     if (mmEmail) mmEmail.textContent = p.email;
 
@@ -484,23 +484,6 @@
     var h = CONFIG.home || {};
     var hero = CONFIG.hero;
 
-    // Logo (com reserva elegante caso o arquivo ainda não exista)
-    var logo = el("home-logo");
-    if (logo) {
-      logo.innerHTML = "";
-      var img = document.createElement("img");
-      img.className = "cover__logo-img";
-      img.alt = c.logoAlt || c.name;
-      img.onload = function () {
-        logo.appendChild(img);
-        logo.classList.add("has-img");
-      };
-      img.onerror = function () {
-        logo.classList.add("is-empty");
-      };
-      img.src = c.companyLogo;
-    }
-
     var eyebrow = el("home-eyebrow");
     if (eyebrow) eyebrow.textContent = h.eyebrow || (c.name + " · Desde " + c.foundedYear);
 
@@ -536,62 +519,6 @@
 
     var idx = el("home-index-label");
     if (idx) idx.textContent = h.indexLabel || "Explore";
-
-    initAtrium();
-  }
-
-  // ── Átrio: composição orgânica + tipográfica que respira com o cursor ──
-  // Camadas com paralaxe suave (lerp via rAF). No touch ou com
-  // prefers-reduced-motion, apenas a deriva ambiental do CSS permanece.
-  function initAtrium() {
-    var stage = el("atrium");
-    if (!stage || stage.dataset.ready) return;
-    stage.dataset.ready = "1";
-
-    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var fine = window.matchMedia && window.matchMedia("(pointer: fine)").matches;
-    if (reduce || !fine) return;
-
-    var layers = Array.prototype.slice.call(
-      stage.querySelectorAll(".atrium__blob, .atrium__ring, .atrium__ring--2, .atrium__word, .atrium__rule")
-    );
-    var depths = [26, -18, -34, 12, 8];
-    var tx = 0, ty = 0, cx = 0, cy = 0, raf = 0, visible = true;
-
-    function loop() {
-      raf = 0;
-      cx += (tx - cx) * 0.06;
-      cy += (ty - cy) * 0.06;
-      layers.forEach(function (elm, i) {
-        var d = depths[i] || 10;
-        elm.style.translate = (cx * d).toFixed(2) + "px " + (cy * d).toFixed(2) + "px";
-      });
-      if (Math.abs(tx - cx) > 0.0005 || Math.abs(ty - cy) > 0.0005) {
-        raf = requestAnimationFrame(loop);
-      }
-    }
-    function kick() { if (!raf) raf = requestAnimationFrame(loop); }
-
-    var cover = stage.closest(".cover") || document;
-    cover.addEventListener("pointermove", function (e) {
-      if (!visible) return;
-      var r = stage.getBoundingClientRect();
-      var px = (e.clientX - (r.left + r.width / 2)) / r.width;
-      var py = (e.clientY - (r.top + r.height / 2)) / r.height;
-      tx = Math.max(-0.5, Math.min(0.5, px));
-      ty = Math.max(-0.5, Math.min(0.5, py));
-      kick();
-    });
-    cover.addEventListener("pointerleave", function () {
-      tx = 0; ty = 0; kick();
-    });
-
-    if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (entries) {
-        visible = entries[0].isIntersecting;
-        if (!visible && raf) { cancelAnimationFrame(raf); raf = 0; }
-      }).observe(stage);
-    }
   }
 
   // ── Contato e rodapé ─────────────────────────────────────────
@@ -621,28 +548,32 @@
 
       var sign = el("contact-sign");
       if (sign) sign.textContent = p.name + " — " + p.title;
+    }
 
-      // Página de contato dedicada: canais extras
-      var waNum = el("contact-whatsapp-number");
-      if (waNum) {
-        waNum.textContent = "WhatsApp " + CONFIG.whatsapp.display;
-      }
+    // Página de contato dedicada (/contato): canais editoriais.
+    // O número de WhatsApp nunca é exibido — só o link com mensagem pronta.
+    if (exists("contact-whatsapp-card") || exists("contact-email-card")) {
+      var c = CONFIG.contact;
+      var p = CONFIG.professional;
       var waCard = el("contact-whatsapp-card");
       if (waCard) waCard.href = waUrl(c.whatsappMessage);
       var waNote = el("contact-whatsapp-note");
       if (waNote) waNote.textContent = "Atendimento direto com Reginaldo, sem compromisso.";
+      var mailto = "mailto:" + p.email + "?subject=" + encodeURIComponent("Orçamento — apoio acadêmico");
       var emAddr = el("contact-email-address");
       if (emAddr) {
         emAddr.textContent = p.email;
+        emAddr.href = mailto;
       }
       var emCard = el("contact-email-card");
-      if (emCard) emCard.href = "mailto:" + p.email + "?subject=" + encodeURIComponent("Orçamento — apoio acadêmico");
+      if (emCard) emCard.href = mailto;
     }
 
     var ft = el("footer-text");
     if (ft) ft.textContent = CONFIG.footer.text;
+    // Home: sem número exposto. Demais páginas: crédito limpo, sem número.
     var fc = el("footer-credit");
-    if (fc) fc.textContent = CONFIG.footer.credit + " · WhatsApp " + CONFIG.whatsapp.display;
+    if (fc) fc.textContent = CONFIG.footer.credit;
 
     // Rodapé institucional rico (todas as páginas)
     var fco = el("footer-company");
@@ -667,7 +598,7 @@
     }
     var fwa = el("footer-whatsapp");
     if (fwa) {
-      fwa.textContent = "WhatsApp " + CONFIG.whatsapp.display;
+      fwa.textContent = "Falar no WhatsApp";
       fwa.href = waUrl(CONFIG.contact.whatsappMessage);
     }
     var fem = el("footer-email");
@@ -825,7 +756,7 @@
   }
 
   function initClickSpark() {
-    var sparkColor = "#8a5a2b";
+    var sparkColor = "#EB9440";
     var sparkSize = 10;
     var sparkRadius = 15;
     var sparkCount = 8;
@@ -897,6 +828,343 @@
     });
   }
 
+  // ── Fundo abstrato editorial (sem objetos literais) ──
+  // Composição própria com círculos, arcos e luz — sem capelo/diploma.
+  function initVerdeAcademico() {
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Palcos escuros: composição completa. Seções claras: blueprint esmaecido.
+    var darkTargets = document.querySelectorAll(".cover, .contact, body[data-page='empresa'] .page-hero, body[data-page='processo'] .page-hero, .home-final");
+    var faintTargets = document.querySelectorAll(".services--page, .process--page, .company");
+    if (!darkTargets.length && !faintTargets.length) return;
+
+    var techSvg = '<svg viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+      '<circle cx="545" cy="230" r="205" stroke="#EB9440" stroke-opacity="0.5" stroke-width="1.5"/>' +
+      '<circle cx="545" cy="230" r="155" stroke="#F5EEDF" stroke-opacity="0.28" stroke-width="1" stroke-dasharray="3 7"/>' +
+      '<circle cx="545" cy="230" r="108" stroke="#EB9440" stroke-opacity="0.42" stroke-width="1.2"/>' +
+      '<circle cx="545" cy="230" r="62" stroke="#F5EEDF" stroke-opacity="0.2" stroke-width="1"/>' +
+      '<path d="M545 5 V455 M320 230 H770" stroke="#F5EEDF" stroke-opacity="0.14" stroke-width="1"/>' +
+      '<path d="M360 420 A250 250 0 0 1 700 120" stroke="#C96A2B" stroke-opacity="0.55" stroke-width="1.5"/>' +
+      '<circle cx="545" cy="230" r="4" fill="#EB9440"/>' +
+      '<g stroke="#EB9440" stroke-opacity="0.6" stroke-width="1.5"><path d="M120 480 h24 M132 468 v24"/><path d="M690 480 h24 M702 468 v24"/></g>' +
+      '<g font-family="monospace" font-size="13" fill="#F5EEDF" fill-opacity="0.35"><text x="118" y="508">ACAD 01</text><text x="648" y="508">2022</text></g>' +
+      '<circle cx="180" cy="140" r="2.5" fill="#C8A15A" fill-opacity="0.9"/><circle cx="730" cy="330" r="2.5" fill="#C8A15A" fill-opacity="0.9"/>' +
+      '</svg>';
+
+    darkTargets.forEach(function (section, idx) {
+      if (section.querySelector(":scope > .acad-bg")) return;
+      section.style.position = section.style.position || "";
+      var comp = window.getComputedStyle(section);
+      if (comp.position === "static") section.style.position = "relative";
+      if (window.getComputedStyle(section).overflow === "visible") section.style.overflow = "hidden";
+
+      var bg = document.createElement("div");
+      bg.className = "acad-bg";
+      bg.setAttribute("aria-hidden", "true");
+
+      var isCover = section.classList.contains("cover");
+      var isLight = section.classList.contains("page-hero") && (document.body.dataset.page === "servicos" || document.body.dataset.page === "contato");
+      // Hero de /contato segue a direção da página: só luzes estáticas,
+      // sem círculos orbitais, linhas, grão ou parallax.
+      var isCleanHero = section.classList.contains("page-hero") && document.body.dataset.page === "contato";
+      var isClean = isCover || isCleanHero;
+      var density = section.classList.contains("contact") ? "full" : "soft";
+      var techCls = density === "full" ? "acad-tech" : "acad-tech acad-tech--soft";
+
+      // Cover limpo: só luzes estáticas — sem tech, linhas, grão ou parallax.
+      bg.innerHTML =
+        '<span class="acad-bg__glow acad-bg__glow--gold"></span>' +
+        '<span class="acad-bg__glow acad-bg__glow--green"></span>' +
+        '<span class="acad-bg__glow acad-bg__glow--orange"></span>' +
+        (isClean ? "" : '<span class="acad-lines"></span>') +
+        (isClean ? "" : '<div class="' + techCls + (density === "full" ? " acad-tech--spin" : "") + '" data-acad="-10">' + techSvg + "</div>") +
+        (density === "full" ? '<span class="acad-grain"></span>' : "");
+
+      section.insertBefore(bg, section.firstChild);
+
+      if (isLight) {
+        bg.style.opacity = "0.32";
+        bg.style.filter = "saturate(1.05)";
+      }
+
+      if (!isClean && !reduce && window.matchMedia && window.matchMedia("(pointer: fine)").matches) {
+        attachAcadParallax(section, bg);
+      }
+    });
+
+    // Seções claras: véu técnico esmaecido, sem capelo para preservar leitura
+    faintTargets.forEach(function (section) {
+      if (section.querySelector(":scope > .acad-faint")) return;
+      var comp = window.getComputedStyle(section);
+      if (comp.position === "static") section.style.position = "relative";
+      var veil = document.createElement("div");
+      veil.className = "acad-faint";
+      veil.setAttribute("aria-hidden", "true");
+      section.insertBefore(veil, section.firstChild);
+    });
+  }
+
+  function attachAcadParallax(section, bg) {
+    var figs = Array.prototype.slice.call(bg.querySelectorAll("[data-acad]"));
+    var glows = Array.prototype.slice.call(bg.querySelectorAll(".acad-bg__glow"));
+    var tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+
+    function loop() {
+      raf = 0;
+      cx += (tx - cx) * 0.055;
+      cy += (ty - cy) * 0.055;
+      figs.forEach(function (f) {
+        var d = parseFloat(f.getAttribute("data-acad")) || 12;
+        f.style.translate = (cx * d).toFixed(2) + "px " + (cy * d).toFixed(2) + "px";
+      });
+      glows.forEach(function (g, i) {
+        var gd = (i + 1) * 8;
+        g.style.translate = ((-cx * gd).toFixed(2)) + "px " + ((-cy * gd).toFixed(2)) + "px";
+      });
+      if (Math.abs(tx - cx) > 0.0004 || Math.abs(ty - cy) > 0.0004) raf = requestAnimationFrame(loop);
+    }
+    function kick() { if (!raf) raf = requestAnimationFrame(loop); }
+
+    section.addEventListener("pointermove", function (e) {
+      var r = section.getBoundingClientRect();
+      tx = Math.max(-0.5, Math.min(0.5, (e.clientX - (r.left + r.width / 2)) / r.width));
+      ty = Math.max(-0.5, Math.min(0.5, (e.clientY - (r.top + r.height / 2)) / r.height));
+      kick();
+    });
+    section.addEventListener("pointerleave", function () { tx = 0; ty = 0; kick(); });
+  }
+
+  // ── Emblema 3D da Home: inspeção por arrasto (objeto ancorado) ───────
+  // Sensação: segurar e examinar a marca. A logo NÃO se desloca pela página
+  // (sem translate) — só a orientação muda (rotateX/rotateY), com momentum
+  // ao soltar. render() é a ÚNICA fonte do transform final: nenhum CSS :hover
+  // toca em transform, para as animações nunca brigarem entre si.
+  var EMBLEM3D = {
+    sensX: 0.22,        // graus de rotateY por px arrastado (horizontal)
+    sensY: 0.18,        // graus de rotateX por px arrastado (vertical)
+    clampX: 38,         // limite de rotateX (deg) — marca sempre legível
+    clampY: 60,         // limite de rotateY (deg) — amplitude maior, controlada
+    momentum: 0.94,     // desaceleração progressiva do giro após soltar
+    returnEase: 0.08,   // retorno suave ao repouso após o momentum
+    hoverTilt: 5,       // inclinação máxima do tilt de hover (deg)
+    hoverScale: 1.015,  // escala discreta no hover
+    holdScale: 1.02,    // escala discreta durante a inspeção
+    shadowShift: 0.35,  // deslocamento da sombra por grau de rotação (px/deg)
+    idleDelay: 2600,    // ms parado até a micro-oscilação de repouso voltar
+    idleAmp: 2.2,       // amplitude da micro-oscilação de repouso (deg)
+    idlePeriod: 7000,   // período da micro-oscilação (ms)
+    flingMin: 0.15      // velocidade mínima (deg/frame) para gerar momentum
+  };
+
+  function initEmblem() {
+    var root = el("emblem");
+    if (!root) return;
+    var tiltEl = root.querySelector(".emblem__tilt");
+    if (!tiltEl) return;
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    var rotX = 0, rotY = 0;     // orientação atual (deg) — a logo fica ancorada
+    var velX = 0, velY = 0;     // velocidade angular (deg/frame)
+    var tRotX = 0, tRotY = 0;   // alvo do hover; repouso = neutro (0, 0)
+    var scale = 1, tScale = 1;
+    var dragging = false, hovering = false, gliding = false;
+    var lastX = 0, lastY = 0;
+    var raf = 0, idleTimer = 0, idleT0 = 0;
+
+    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+
+    // ÚNICA fonte de transformação: toda atualização passa por aqui.
+    function render(now) {
+      var ix = 0, iy = 0;
+      if (!dragging && !gliding && !hovering && !reduce && idleT0) {
+        var t = ((now || performance.now()) - idleT0) / EMBLEM3D.idlePeriod;
+        ix = Math.sin(t * Math.PI * 2) * EMBLEM3D.idleAmp;
+        iy = Math.cos(t * Math.PI * 2 * 0.7) * EMBLEM3D.idleAmp;
+      }
+      tiltEl.style.transform =
+        "rotateX(" + (rotX + ix).toFixed(2) + "deg)" +
+        " rotateY(" + (rotY + iy).toFixed(2) + "deg)" +
+        " scale(" + scale.toFixed(4) + ")";
+      // Sombra dinâmica: desloca-se contra a inclinação (profundidade).
+      tiltEl.style.setProperty("--shx", (-(rotY + iy) * EMBLEM3D.shadowShift).toFixed(1) + "px");
+      tiltEl.style.setProperty("--shy", ((rotX + ix) * EMBLEM3D.shadowShift * 0.6).toFixed(1) + "px");
+    }
+
+    function kick() { if (!raf) raf = requestAnimationFrame(loop); }
+    function stop() { if (raf) { cancelAnimationFrame(raf); raf = 0; } }
+
+    function wake() {
+      idleT0 = 0;
+      if (idleTimer) { clearTimeout(idleTimer); idleTimer = 0; }
+    }
+
+    function rest() {
+      if (reduce) return;
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(function () {
+        idleTimer = 0;
+        if (!dragging && !gliding && !hovering) {
+          idleT0 = performance.now();
+          kick();
+        }
+      }, EMBLEM3D.idleDelay);
+    }
+
+    function loop(now) {
+      raf = 0;
+      if (dragging) {
+        // Durante o arrasto o pointermove atualiza rotX/rotY; aqui só a
+        // escala converge e o frame é renderizado pela fonte única.
+        scale += (tScale - scale) * 0.15;
+        render(now);
+        kick();
+        return;
+      }
+      if (gliding) {
+        // Momentum: continua girando com a velocidade acumulada e desacelera.
+        rotX = clamp(rotX + velX, -EMBLEM3D.clampX, EMBLEM3D.clampX);
+        rotY = clamp(rotY + velY, -EMBLEM3D.clampY, EMBLEM3D.clampY);
+        velX *= EMBLEM3D.momentum;
+        velY *= EMBLEM3D.momentum;
+        if (Math.abs(velX) < 0.02 && Math.abs(velY) < 0.02) {
+          gliding = false; // momentum esgotado → retorno suave ao repouso
+          tRotX = 0; tRotY = 0;
+        }
+      } else {
+        rotX += (tRotX - rotX) * EMBLEM3D.returnEase;
+        rotY += (tRotY - rotY) * EMBLEM3D.returnEase;
+        if (Math.abs(tRotX - rotX) < 0.02) rotX = tRotX;
+        if (Math.abs(tRotY - rotY) < 0.02) rotY = tRotY;
+      }
+      scale += (tScale - scale) * 0.12;
+      render(now);
+      var settled = !gliding &&
+        rotX === tRotX && rotY === tRotY && Math.abs(tScale - scale) < 0.0005;
+      if (!settled) {
+        kick();
+      } else {
+        scale = tScale;
+        render(now);
+        rest();
+      }
+    }
+
+    function sheen(e) {
+      var r = root.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      var mx = ((e.clientX - r.left) / r.width) * 100;
+      var my = ((e.clientY - r.top) / r.height) * 100;
+      tiltEl.style.setProperty("--mx", clamp(mx, 0, 100).toFixed(1) + "%");
+      tiltEl.style.setProperty("--my", clamp(my, 0, 100).toFixed(1) + "%");
+    }
+
+    root.addEventListener("dragstart", function (e) { e.preventDefault(); });
+
+    root.addEventListener("pointerdown", function (e) {
+      if (e.button !== undefined && e.button !== 0) return;
+      dragging = true;
+      gliding = false;
+      wake();
+      stop();
+      root.classList.add("is-held");
+      lastX = e.clientX;
+      lastY = e.clientY;
+      velX = 0; velY = 0;
+      tScale = EMBLEM3D.holdScale;
+      // Captura só no mouse: no touch a captura bloquearia o scroll da página.
+      if (e.pointerType === "mouse") {
+        try { root.setPointerCapture(e.pointerId); } catch (_) {}
+      }
+      sheen(e);
+      kick();
+    });
+
+    root.addEventListener("pointermove", function (e) {
+      sheen(e);
+      if (dragging) {
+        // Inspeção: horizontal → rotateY, vertical → rotateX. Sem translate.
+        var dx = e.clientX - lastX;
+        var dy = e.clientY - lastY;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        rotY = clamp(rotY + dx * EMBLEM3D.sensX, -EMBLEM3D.clampY, EMBLEM3D.clampY);
+        rotX = clamp(rotX - dy * EMBLEM3D.sensY, -EMBLEM3D.clampX, EMBLEM3D.clampX);
+        velY = velY * 0.6 + dx * EMBLEM3D.sensX * 0.4;
+        velX = velX * 0.6 + (-dy) * EMBLEM3D.sensY * 0.4;
+      } else if (hovering && e.pointerType !== "touch" && e.buttons === 0) {
+        // Hover é secundário: tilt pequeno que sinaliza "segurável".
+        var r = root.getBoundingClientRect();
+        if (r.width && r.height) {
+          var relX = (e.clientX - r.left) / r.width - 0.5;
+          var relY = (e.clientY - r.top) / r.height - 0.5;
+          tRotX = clamp(-relY * 2, -1, 1) * EMBLEM3D.hoverTilt;
+          tRotY = clamp(relX * 2, -1, 1) * EMBLEM3D.hoverTilt;
+          kick();
+        }
+      }
+    });
+
+    function release(e, isCancel) {
+      if (!dragging) return;
+      dragging = false;
+      root.classList.remove("is-held");
+      tScale = hovering ? EMBLEM3D.hoverScale : 1;
+      if (reduce || isCancel || (Math.abs(velX) < EMBLEM3D.flingMin && Math.abs(velY) < EMBLEM3D.flingMin)) {
+        // Sem momentum: soltura lenta, scroll interrompido ou movimento reduzido.
+        velX = 0; velY = 0;
+        gliding = false;
+        tRotX = 0; tRotY = 0;
+      } else {
+        gliding = true; // soltura rápida → continua girando e desacelera
+        tRotX = 0; tRotY = 0;
+      }
+      kick();
+    }
+
+    root.addEventListener("pointerup", function (e) { release(e, false); });
+    root.addEventListener("pointercancel", function (e) { release(e, true); });
+
+    root.addEventListener("pointerenter", function (e) {
+      if (e.pointerType === "touch") return;
+      hovering = true;
+      wake();
+      if (!dragging) {
+        tScale = EMBLEM3D.hoverScale;
+        kick();
+      }
+    });
+
+    root.addEventListener("pointerleave", function () {
+      hovering = false;
+      if (dragging) return;
+      tRotX = 0; tRotY = 0;
+      tScale = 1;
+      kick();
+    });
+
+    // Teclado: a marca também pode ser inspecionada sem ponteiro.
+    root.addEventListener("keydown", function (e) {
+      var step = 6, handled = true;
+      wake();
+      switch (e.key) {
+        case "ArrowLeft": rotY = clamp(rotY - step, -EMBLEM3D.clampY, EMBLEM3D.clampY); break;
+        case "ArrowRight": rotY = clamp(rotY + step, -EMBLEM3D.clampY, EMBLEM3D.clampY); break;
+        case "ArrowUp": rotX = clamp(rotX - step, -EMBLEM3D.clampX, EMBLEM3D.clampX); break;
+        case "ArrowDown": rotX = clamp(rotX + step, -EMBLEM3D.clampX, EMBLEM3D.clampX); break;
+        case "Home": case "0": rotX = 0; rotY = 0; tRotX = 0; tRotY = 0; break;
+        default: handled = false;
+      }
+      if (handled) { e.preventDefault(); gliding = false; kick(); rest(); }
+    });
+
+    // Repouso inicial: micro-oscilação quase imperceptível (só sem reduce).
+    if (!reduce) {
+      idleT0 = performance.now();
+      kick();
+    } else {
+      render(performance.now());
+    }
+  }
+
   // ── Init ─────────────────────────────────────────────────────
   function init() {
     renderNav();
@@ -908,6 +1176,8 @@
     renderProcess();
     renderHome();
     renderContact();
+    initVerdeAcademico();
+    initEmblem();
     initScroll();
     initReveal();
     initGlow();

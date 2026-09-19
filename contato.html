@@ -2,9 +2,10 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="theme-color" content="#06170f">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contato — WhatsApp e E-mail | Assessoria Company</title>
-  <meta name="description" content="Fale com a Assessoria Company pelo WhatsApp 83 8122-2707 ou pelo e-mail professorreginaldoguedes@gmail.com. Orientação sem compromisso.">
+  <meta name="description" content="Fale com a Assessoria Company pelo WhatsApp ou pelo e-mail professorreginaldoguedes@gmail.com. Orientação sem compromisso.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Contato — Assessoria Company">
   <meta property="og:locale" content="pt_BR">
@@ -41,36 +42,21 @@
       </div>
     </section>
 
-    <section class="contact-page" aria-label="Canais de contato">
-      <div class="contact-page__container">
-        <a class="contact-card reveal" id="contact-whatsapp-card" href="#" target="_blank" rel="noopener noreferrer">
-          <span class="contact-card__tag">Canal direto · Resposta rápida</span>
-          <span class="contact-card__title">WhatsApp</span>
-          <span class="contact-card__value" id="contact-whatsapp-number"></span>
-          <span class="contact-card__note" id="contact-whatsapp-note"></span>
-          <span class="contact-card__cta">Solicitar orçamento <span aria-hidden="true">→</span></span>
+    <section class="channels" aria-label="Canais de contato">
+      <div class="channels__container">
+        <a class="channel channel--primary reveal" id="contact-whatsapp-card" href="#" target="_blank" rel="noopener noreferrer">
+          <span class="channel__label">Canal principal · Atendimento direto</span>
+          <span class="channel__title">WhatsApp</span>
+          <span class="channel__desc" id="contact-whatsapp-note">Atendimento direto, sem compromisso.</span>
+          <span class="channel__cta btn btn--bronze glow-btn spark-btn">Solicitar orçamento <span aria-hidden="true">→</span></span>
         </a>
-        <a class="contact-card contact-card--alt reveal" href="#" id="contact-email-card">
-          <span class="contact-card__tag">Para documentos e detalhes</span>
-          <span class="contact-card__title">E-mail</span>
-          <span class="contact-card__value contact-card__value--mail" id="contact-email-address"></span>
-          <span class="contact-card__note">Envie tema, prazo e instituição de ensino.</span>
-          <span class="contact-card__cta">Escrever e-mail <span aria-hidden="true">→</span></span>
-        </a>
-      </div>
-    </section>
-
-    <section class="contact contact--page">
-      <div class="contact__ring" aria-hidden="true"></div>
-      <div class="contact__container">
-        <p class="kicker kicker--light reveal" id="contact-label"></p>
-        <h2 class="contact__title reveal" id="contact-title"></h2>
-        <p class="contact__subtitle reveal" id="contact-subtitle"></p>
-        <div class="contact__actions reveal">
-          <a class="btn btn--bronze glow-btn spark-btn" id="contact-cta" href="#" target="_blank" rel="noopener noreferrer"></a>
-          <a class="contact__email" id="contact-email" href="#"></a>
+        <div class="channel channel--secondary reveal">
+          <span class="channel__label">Para documentos e detalhes</span>
+          <span class="channel__title">E-mail</span>
+          <a class="channel__mail" id="contact-email-address" href="#"></a>
+          <span class="channel__desc">Envie tema, prazo e instituição de ensino.</span>
+          <a class="channel__cta channel__cta--link" id="contact-email-card" href="#">Escrever e-mail <span aria-hidden="true">→</span></a>
         </div>
-        <p class="contact__sign" id="contact-sign"></p>
       </div>
     </section>
   </main>

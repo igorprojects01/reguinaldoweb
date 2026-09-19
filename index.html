@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="theme-color" content="#06170f">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Assessoria Company — Suporte e Orientação Acadêmica</title>
   <meta name="description" content="Assessoria Company: suporte, consultoria e orientação acadêmica para estudantes — TCCs, projetos, artigos, relatórios de estágio e formatação ABNT.">
@@ -45,25 +46,28 @@
   <main>
     <!-- Capa editorial — Assessoria Company -->
     <section class="cover" aria-label="Assessoria Company — apresentação">
-      <!-- Átrio: composição orgânica + tipográfica que respira com o cursor -->
-      <div class="atrium" id="atrium" aria-hidden="true">
-        <span class="atrium__word" id="atrium-word">A</span>
-        <span class="atrium__blob"></span>
-        <span class="atrium__ring"></span>
-        <span class="atrium__ring atrium__ring--2"></span>
-        <span class="atrium__rule"></span>
-      </div>
-
       <div class="cover__container">
-        <!-- Espaço do logo: CONFIG.company.companyLogo (com reserva elegante) -->
-        <div class="cover__logo reveal" id="home-logo"></div>
-        <p class="cover__eyebrow reveal" id="home-eyebrow"></p>
-        <h1 class="cover__title reveal" id="home-title"></h1>
-        <p class="cover__phrase reveal" id="home-phrase"></p>
-        <p class="cover__explore reveal"><span class="cover__explore-line" aria-hidden="true"></span><span id="home-explore"></span></p>
-        <div class="cover__actions reveal">
-          <a class="btn btn--ink glow-btn spark-btn" id="home-cta-empresa" href="empresa.html"></a>
-          <a class="btn btn--ghost" id="home-cta-servicos" href="servicos.html"></a>
+        <div class="cover__grid">
+          <div class="cover__main">
+            <p class="cover__eyebrow reveal" id="home-eyebrow"></p>
+            <h1 class="cover__title reveal" id="home-title"></h1>
+            <p class="cover__phrase reveal" id="home-phrase"></p>
+            <p class="cover__explore reveal"><span class="cover__explore-line" aria-hidden="true"></span><span id="home-explore"></span></p>
+            <div class="cover__actions reveal">
+              <a class="btn btn--ink glow-btn spark-btn" id="home-cta-empresa" href="empresa.html"></a>
+              <a class="btn btn--ghost" id="home-cta-servicos" href="servicos.html"></a>
+            </div>
+          </div>
+          <div class="cover__stage reveal">
+            <div class="emblem" id="emblem" tabindex="0" aria-label="Logotipo da Assessoria Company — arraste para inspecionar">
+              <div class="emblem__float">
+                <div class="emblem__tilt">
+                  <img class="emblem__img" src="public/images/logo.png?v=2" alt="Logotipo da Assessoria Company" draggable="false">
+                  <span class="emblem__sheen" aria-hidden="true"></span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <nav class="cover__index reveal" aria-label="Explore o site">
           <span class="cover__index-label" id="home-index-label"></span>

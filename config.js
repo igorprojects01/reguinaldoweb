@@ -46,7 +46,7 @@ const CONFIG = {
     foundedBadge: "Desde",
     slogan: "Sua Jornada Acadêmica com Suporte Profissional!",
     // ▼▼▼ TROQUE OS ARQUIVOS AQUI ▼▼▼
-    companyLogo: "public/images/logo-assessoria.png",       // LOGO da empresa (troque pelo arquivo real)
+    companyLogo: "public/images/logo.png",       // LOGO oficial da Assessoria Company
     companyImage: "public/images/assessoria-company.jpg",   // IMAGEM institucional (troque pelo arquivo real)
     companyImageAlt: "Imagem institucional da Assessoria Company",
     logoAlt: "Logotipo da Assessoria Company",

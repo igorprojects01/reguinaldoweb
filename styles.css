@@ -47,6 +47,9 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Canvas raiz na identidade: nenhum frame em branco durante a navegação */
+  background: #06170f;
+  color-scheme: dark;
 }
 
 body {
@@ -1366,7 +1369,7 @@ blockquote, cite {
 .glow-btn {
   position: relative;
   isolation: isolate;
-  --glow-color: 30 55% 45%; /* tom bronze/terroso, combina com a paleta */
+  --glow-color: 30 85% 60%; /* laranja leve da nova identidade */
   --edge-proximity: 0;
   --cursor-angle: 0deg;
 }
@@ -2091,84 +2094,145 @@ blockquote, cite {
   margin-top: -8px;
 }
 
-/* ── Contato página dedicada ─────────────────────────────────────────── */
+/* ── Contato: canais em composição editorial (só /contato) ─────────────────
+   Assimétrico por intenção: WhatsApp como painel em destaque, e-mail como
+   faixa silenciosa entre hairlines. Sem grade de cards iguais. */
 
-.contact-page { padding: clamp(24px, 4vw, 48px) var(--pad) clamp(48px, 7vw, 96px); }
+.channels {
+  background:
+    radial-gradient(700px 380px at 85% 10%, rgba(46, 125, 82, 0.2), transparent 62%),
+    linear-gradient(180deg, #0c3524, var(--green-deep));
+  padding: clamp(24px, 4vw, 48px) var(--pad) clamp(64px, 8vw, 120px);
+}
 
-.contact-page__container {
+.channels__container {
   max-width: 1360px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 22px;
+  gap: clamp(28px, 5vw, 44px);
+  min-width: 0;
 }
 
-@media (min-width: 900px) {
-  .contact-page__container { grid-template-columns: 1fr 1fr; }
-}
+.channel { min-width: 0; }
 
-.contact-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  background: var(--surface);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: var(--r-card);
-  padding: clamp(28px, 4vw, 44px);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
-  transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out), border-color 0.22s var(--ease-out);
-}
-
-.contact-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--bronze);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 10px 24px -3px rgba(0, 0, 0, 0.08);
-}
-
-.contact-card--alt { background: var(--ink); color: var(--paper); border-color: transparent; }
-
-.contact-card__tag {
+.channel__label {
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--brown);
+  color: var(--orange-light);
 }
 
-.contact-card--alt .contact-card__tag { color: var(--bronze); }
-
-.contact-card__title {
+.channel__title {
   font-family: var(--serif);
-  font-size: clamp(1.8rem, 3.4vw, 2.5rem);
   font-weight: 550;
   letter-spacing: -0.02em;
+  color: var(--text-light);
+  line-height: 1.05;
 }
 
-.contact-card__value {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--brown-deep);
+.channel__desc {
+  color: rgba(245, 238, 223, 0.78);
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 44ch;
 }
 
-.contact-card--alt .contact-card__value { color: var(--bronze-light); }
+/* Painel principal: WhatsApp */
+.channel--primary {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  padding: clamp(30px, 4.5vw, 52px);
+  border: 1px solid rgba(235, 148, 64, 0.38);
+  border-radius: var(--r-card);
+  background:
+    radial-gradient(480px 300px at 88% 12%, rgba(235, 148, 64, 0.12), transparent 65%),
+    linear-gradient(155deg, #0e3d27 0%, var(--green-dark) 60%, var(--green-deep) 100%);
+  color: var(--text-light);
+  text-decoration: none;
+  overflow: hidden;
+  transition: border-color 0.25s var(--ease-out);
+}
 
-.contact-card__value--mail { font-size: 1rem; overflow-wrap: break-word; }
+.channel--primary::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--orange-light), var(--orange-hover));
+}
 
-.contact-card__note { color: var(--muted); font-size: 0.95rem; }
+.channel--primary:hover { border-color: var(--orange-light); }
+.channel--primary:hover .channel__cta { filter: brightness(1.07); }
 
-.contact-card--alt .contact-card__note { color: var(--muted-dark); }
+.channel--primary .channel__title { font-size: clamp(2.2rem, 4.5vw, 3.2rem); }
+.channel--primary .channel__cta { margin-top: 12px; }
 
-.contact-card__cta {
-  margin-top: 16px;
+/* Faixa secundária: e-mail */
+.channel--secondary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: clamp(24px, 3vw, 36px) clamp(2px, 1vw, 8px);
+  border-top: 1px solid rgba(245, 238, 223, 0.16);
+  border-bottom: 1px solid rgba(245, 238, 223, 0.16);
+  color: var(--text-light);
+}
+
+.channel--secondary .channel__title { font-size: clamp(1.7rem, 3vw, 2.2rem); }
+
+.channel__mail {
+  font-size: clamp(1.02rem, 2.4vw, 1.3rem);
   font-weight: 700;
-  color: var(--brown-deep);
+  color: var(--orange-light);
+  border-bottom: 1px solid rgba(235, 148, 64, 0.55);
+  padding-bottom: 2px;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  transition: color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+}
+
+.channel__mail:hover { color: #fff; border-color: transparent; }
+
+.channel__cta--link {
+  margin-top: 6px;
+  font-weight: 700;
+  color: var(--text-light);
   display: inline-flex;
   gap: 8px;
   align-items: center;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition: color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
 }
 
-.contact-card--alt .contact-card__cta { color: var(--bronze); }
+.channel__cta--link span[aria-hidden="true"] { color: var(--orange-light); }
+.channel__cta--link:hover { color: var(--orange-light); border-color: rgba(235, 148, 64, 0.5); }
+
+.channel:focus-visible,
+.channel__mail:focus-visible,
+.channel__cta--link:focus-visible { outline: 2px solid var(--orange-light); outline-offset: 3px; }
+
+/* Desktop: assimetria — painel amplo à esquerda, e-mail deslocado abaixo */
+@media (min-width: 960px) {
+  .channels__container {
+    grid-template-columns: 7fr 5fr;
+    gap: clamp(28px, 4vw, 56px);
+    align-items: start;
+  }
+  .channel--secondary { margin-top: clamp(48px, 6vw, 96px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .channel--primary, .channel__mail, .channel__cta--link { transition: none; }
+}
 
 /* ── Responsivo empresa ──────────────────────────────────────────────── */
 
@@ -2414,27 +2478,6 @@ body.is-leaving main { transform: translateY(8px); transition: transform 0.22s v
   margin: 0 auto;
 }
 
-/* Espaço do logo */
-.cover__logo {
-  min-height: 72px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: clamp(26px, 4vw, 44px);
-}
-
-/* Sem logo ainda: o espaço fica oculto até o arquivo ser adicionado */
-.cover__logo.is-empty {
-  display: none;
-}
-
-.cover__logo-img {
-  max-height: 72px;
-  width: auto;
-  max-width: min(320px, 70vw);
-  object-fit: contain;
-}
-
 .cover__eyebrow {
   display: flex;
   align-items: center;
@@ -2543,91 +2586,6 @@ body.is-leaving main { transform: translateY(8px); transition: transform 0.22s v
 
 .cover__index a:hover { color: var(--brown-deep); }
 
-/* ── Átrio: formas orgânicas + tipografia em deriva ─────────────────────── */
-
-.atrium {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.atrium__word {
-  position: absolute;
-  right: -2%;
-  top: 6%;
-  font-family: var(--serif);
-  font-weight: 600;
-  font-size: clamp(22rem, 46vw, 44rem);
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(122, 87, 56, 0.28);
-  animation: atrium-drift 16s ease-in-out infinite alternate;
-}
-
-.atrium__blob {
-  position: absolute;
-  right: 6%;
-  top: 22%;
-  width: clamp(280px, 34vw, 560px);
-  aspect-ratio: 1;
-  background:
-    radial-gradient(closest-side, rgba(200, 154, 107, 0.32), rgba(200, 154, 107, 0) 72%),
-    radial-gradient(closest-side, var(--paper-deep), transparent 78%);
-  border: 1px solid var(--line);
-  border-radius: 42% 58% 61% 39% / 45% 41% 59% 55%;
-  animation: atrium-morph 14s ease-in-out infinite alternate;
-}
-
-.atrium__ring,
-.atrium__ring--2 {
-  position: absolute;
-  border: 1px solid rgba(122, 87, 56, 0.3);
-  border-radius: 50%;
-}
-
-.atrium__ring {
-  right: 2%;
-  top: 12%;
-  width: clamp(340px, 42vw, 680px);
-  aspect-ratio: 1;
-  animation: atrium-breathe 11s ease-in-out infinite alternate;
-}
-
-.atrium__ring--2 {
-  right: 10%;
-  top: 34%;
-  width: clamp(180px, 22vw, 340px);
-  aspect-ratio: 1;
-  border-color: var(--line);
-  animation: atrium-breathe 13s ease-in-out infinite alternate-reverse;
-}
-
-.atrium__rule {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: linear-gradient(180deg, transparent, var(--line) 30%, var(--line) 70%, transparent);
-}
-
-@keyframes atrium-morph {
-  from { border-radius: 42% 58% 61% 39% / 45% 41% 59% 55%; transform: rotate(0deg) scale(1); }
-  to { border-radius: 58% 42% 39% 61% / 55% 59% 41% 45%; transform: rotate(8deg) scale(1.05); }
-}
-
-@keyframes atrium-drift {
-  from { transform: translateY(-2%); }
-  to { transform: translateY(3%); }
-}
-
-@keyframes atrium-breathe {
-  from { transform: scale(1); opacity: 0.8; }
-  to { transform: scale(1.04); opacity: 1; }
-}
-
 /* ── Refinamento da página empresa (só apresentação; Reginaldo intacto) ─── */
 
 body[data-page="empresa"] .page-hero--empresa .page-hero__title {
@@ -2651,16 +2609,10 @@ body[data-page="empresa"] .company__visual {
   gap: 26px;
 }
 
-/* ── Capa no mobile: composição própria, átrio ambiental ─────────────────── */
+/* ── Capa no mobile ─────────────────────────────────────────────────── */
 
 @media (max-width: 900px) {
   .cover { align-items: flex-end; }
-  .atrium { opacity: 0.55; }
-  .atrium__word { right: -30%; top: -4%; }
-  .atrium__blob { right: -20%; top: 2%; }
-  .atrium__ring { right: -30%; top: -6%; }
-  .atrium__ring--2 { right: 8%; top: 8%; }
-  .atrium__rule { display: none; }
   .cover__title { font-size: clamp(3rem, 17vw, 5rem); }
 }
 
@@ -2670,8 +2622,865 @@ body[data-page="empresa"] .company__visual {
   .cover__index { gap: 10px 18px; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .atrium__word, .atrium__blob, .atrium__ring, .atrium__ring--2 {
-    animation: none;
-  }
+/* ==========================================================================
+   DIREÇÃO DE ARTE — Verde floresta + ouro + laranja (Assessoria Company)
+   Camada evolutiva: não reconstrói a estrutura, apenas veste o site.
+   ========================================================================== */
+
+:root {
+  /* Paleta global — verde dominante, laranja como acento */
+  --green-deep: #06170f;
+  --green-dark: #0a2e1f;
+  --green-main: #14532d;
+  --green-soft: #2e7d52;
+  --orange: #c96a2b;
+  --orange-hover: #a8541f;
+  --cream: #f2ead8;
+  --off-white: #faf6ec;
+  --text-light: #f5eedf;
+  --text-dark: #10231a;
+
+  /* Aliases de compatibilidade (não espalhar hex pelo código) */
+  --green-olive: #6c7a4e;
+  --orange-light: #eb9440;
+  --gold: #c8a15a;
+  --color-green-abyss: var(--green-deep);
+  --color-green-dark: var(--green-dark);
+  --color-green-deep: #0e3d27;
+  --color-green: var(--green-main);
+  --color-green-bright: var(--green-soft);
+  --color-gold: var(--orange-light);
+  --color-gold-light: #f7bf77;
+  --color-orange: var(--orange);
+  --color-cream: var(--cream);
+  --color-dark: var(--green-deep);
+
+  --verde-glow-gold: rgba(235, 148, 64, 0.38);
+  --verde-glow-orange: rgba(201, 106, 43, 0.26);
+  --verde-line: rgba(245, 238, 223, 0.14);
+  --verde-line-gold: rgba(235, 148, 64, 0.42);
+
+  /* Virada completa: tokens legados passam a apontar para a nova identidade.
+     Tudo que usava papel/tinta/bronze agora obedece ao verde + laranja. */
+  --paper: var(--cream);
+  --paper-deep: #e2d5b8;
+  --surface: var(--off-white);
+  --ink: var(--green-deep);
+  --ink-soft: #143026;
+  --brown: var(--orange);
+  --brown-deep: var(--orange-hover);
+  --bronze: var(--orange);
+  --bronze-light: var(--orange-light);
+  --muted: #4c5f54;
+  --muted-dark: #b9c6b4;
+  --line: #d8cbae;
+  --line-dark: rgba(245, 238, 223, 0.16);
+  --white: var(--off-white);
 }
+
+/* ── Base: ritmo verde / creme ─────────────────────────────────────────── */
+
+body[data-page="inicio"] { background: var(--color-cream); }
+
+/* ── Capa Home: verde profundo vivo ────────────────────────────────────── */
+
+.cover {
+  background:
+    radial-gradient(1100px 620px at 82% 18%, rgba(31, 163, 92, 0.34), transparent 62%),
+    radial-gradient(900px 620px at 88% 78%, rgba(228, 106, 42, 0.20), transparent 60%),
+    radial-gradient(700px 500px at 62% 42%, rgba(235, 148, 64, 0.22), transparent 64%),
+    radial-gradient(1200px 900px at 40% 110%, rgba(20, 83, 45, 0.9), transparent 70%),
+    linear-gradient(155deg, #0d3a25 0%, var(--color-green-dark) 34%, var(--color-green-abyss) 100%);
+  color: var(--color-cream);
+}
+
+.cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(180deg, rgba(7, 31, 21, 0.25), transparent 30%, transparent 62%, rgba(7, 31, 21, 0.55)),
+    repeating-linear-gradient(0deg, rgba(245, 238, 223, 0.025) 0 1px, transparent 1px 7px);
+  pointer-events: none;
+}
+
+.cover::after {
+  content: "";
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -1px;
+  height: 120px;
+  z-index: 1;
+  background: linear-gradient(180deg, transparent, rgba(7, 31, 21, 0.5));
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.cover__container { color: var(--color-cream); }
+
+.cover__eyebrow { color: var(--color-gold-light); }
+.cover__eyebrow::before { background: var(--color-gold); }
+
+.cover__title { color: var(--color-cream); text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35); }
+.cover__title em { color: var(--color-gold-light); }
+
+.cover__phrase {
+  color: var(--text-light);
+  border-left-color: var(--orange-light);
+}
+
+.cover__explore { color: rgba(245, 238, 223, 0.72); }
+.cover__explore-line { background: rgba(245, 238, 223, 0.28); }
+
+.cover__index { border-top-color: var(--verde-line); }
+.cover__index-label { color: var(--color-gold); }
+.cover__index a { color: rgba(245, 238, 223, 0.78); }
+.cover__index a b { color: var(--color-gold-light); }
+.cover__index a:hover { color: #fff; }
+
+/* ── Cena abstrata editorial ─────────────────────────────────── */
+
+.acad-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.page-hero__container,
+.contact__container,
+.home-final__container {
+  position: relative;
+  z-index: 2;
+}
+
+.acad-bg__glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+}
+
+.acad-bg__glow--gold {
+  right: 4%;
+  top: 8%;
+  width: clamp(320px, 38vw, 620px);
+  aspect-ratio: 1;
+  background: radial-gradient(closest-side, rgba(235, 148, 64, 0.34), transparent 72%);
+}
+
+.acad-bg__glow--green {
+  right: 18%;
+  bottom: -12%;
+  width: clamp(380px, 46vw, 720px);
+  aspect-ratio: 1.2;
+  background: radial-gradient(closest-side, rgba(31, 163, 92, 0.36), transparent 70%);
+  filter: blur(70px);
+}
+
+.acad-bg__glow--orange {
+  right: -6%;
+  bottom: 6%;
+  width: clamp(240px, 26vw, 420px);
+  aspect-ratio: 1;
+  background: radial-gradient(closest-side, rgba(228, 106, 42, 0.28), transparent 70%);
+  filter: blur(55px);
+}
+
+/* Figuras literais removidas — identidade apenas com formas abstratas */
+
+.acad-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(245, 238, 223, 0.05) 1px, transparent 1px);
+  background-size: 100% 34px;
+  mask-image: radial-gradient(600px 420px at 78% 40%, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(600px 420px at 78% 40%, black 30%, transparent 75%);
+}
+
+.acad-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background: radial-gradient(1px 1px at 20% 30%, rgba(247, 191, 119, 0.5), transparent),
+    radial-gradient(1px 1px at 70% 20%, rgba(245, 238, 223, 0.4), transparent),
+    radial-gradient(1px 1px at 82% 62%, rgba(228, 106, 42, 0.5), transparent);
+}
+
+/* ── Páginas internas: ritmo ───────────────────────────────────────────── */
+
+body[data-page="empresa"] .page-hero--empresa,
+body[data-page="empresa"] .page-hero {
+  position: relative;
+  overflow: hidden;
+  color: var(--color-cream);
+  background:
+    radial-gradient(800px 480px at 85% 20%, rgba(31, 163, 92, 0.32), transparent 62%),
+    radial-gradient(600px 420px at 90% 85%, rgba(228, 106, 42, 0.18), transparent 60%),
+    linear-gradient(150deg, #0e3d27 0%, var(--color-green-dark) 45%, var(--color-green-abyss) 100%);
+}
+
+body[data-page="empresa"] .page-hero__title,
+body[data-page="processo"] .page-hero__title { color: var(--color-cream); }
+body[data-page="empresa"] .page-hero__title em,
+body[data-page="processo"] .page-hero__title em { color: var(--color-gold-light); }
+body[data-page="empresa"] .page-hero__sub { color: rgba(245, 238, 223, 0.82); }
+body[data-page="empresa"] .breadcrumb,
+body[data-page="processo"] .breadcrumb { color: rgba(245, 238, 223, 0.7); }
+body[data-page="empresa"] .breadcrumb a,
+body[data-page="processo"] .breadcrumb a { color: var(--color-gold-light); }
+body[data-page="empresa"] .page-hero__eyebrow { color: var(--color-gold-light); }
+
+body[data-page="processo"] .page-hero {
+  position: relative;
+  overflow: hidden;
+  color: var(--color-cream);
+  background:
+    radial-gradient(700px 420px at 80% 30%, rgba(235, 148, 64, 0.26), transparent 62%),
+    linear-gradient(160deg, var(--color-green) 0%, var(--color-green-deep) 55%, var(--color-green-abyss) 100%);
+}
+body[data-page="processo"] .page-hero__sub { color: rgba(245, 238, 223, 0.84); }
+body[data-page="processo"] .page-hero__eyebrow { color: var(--color-gold-light); }
+
+body[data-page="servicos"] .page-hero,
+body[data-page="contato"] .page-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(600px 380px at 88% 10%, rgba(31, 163, 92, 0.16), transparent 60%),
+    radial-gradient(500px 340px at 92% 90%, rgba(235, 148, 64, 0.18), transparent 62%),
+    linear-gradient(180deg, var(--cream) 0%, var(--paper-deep) 100%);
+}
+
+/* Faixas de transição verdes */
+.services { background: linear-gradient(180deg, var(--paper-deep) 0%, var(--cream) 100%); }
+.services--page { background: linear-gradient(180deg, var(--paper-deep) 0%, var(--cream) 60%, #dfe7d8 100%); }
+
+.process {
+  position: relative;
+  background:
+    radial-gradient(700px 380px at 12% 10%, rgba(46, 125, 82, 0.14), transparent 60%),
+    linear-gradient(180deg, var(--cream) 0%, #e2e8d8 100%);
+}
+
+.statement {
+  background:
+    radial-gradient(800px 400px at 20% 50%, rgba(31, 163, 92, 0.22), transparent 62%),
+    radial-gradient(500px 300px at 85% 20%, rgba(235, 148, 64, 0.16), transparent 60%),
+    linear-gradient(140deg, var(--color-green-deep) 0%, var(--color-green-dark) 50%, var(--color-green-abyss) 100%);
+  border-top: 1px solid rgba(235, 148, 64, 0.28);
+  border-bottom: 1px solid rgba(235, 148, 64, 0.28);
+}
+.statement__mark { color: var(--color-gold); }
+.statement__author { color: var(--color-gold-light); }
+
+/* Sobre Reginaldo: mantém conteúdo, veste com verde */
+.about--company {
+  background:
+    radial-gradient(640px 420px at 12% 18%, rgba(46, 125, 82, 0.16), transparent 62%),
+    linear-gradient(180deg, transparent 0, var(--off-white) 18%, var(--off-white) 82%, #dfe7d8 100%);
+  border-top: 1px solid rgba(20, 83, 45, 0.16);
+}
+.about__areas-text { color: var(--color-green); }
+.about__frame::after { border-color: var(--color-gold); }
+.about__caption { color: var(--color-green); }
+.about__frame-note { background: var(--color-green-dark); color: var(--color-cream); }
+
+/* ── Contato + rodapé: verde abissal ───────────────────────────────────── */
+
+.contact {
+  background:
+    radial-gradient(900px 520px at 85% 10%, rgba(31, 163, 92, 0.30), transparent 62%),
+    radial-gradient(640px 420px at 92% 88%, rgba(228, 106, 42, 0.20), transparent 60%),
+    radial-gradient(520px 360px at 60% 50%, rgba(235, 148, 64, 0.14), transparent 64%),
+    linear-gradient(155deg, #0e3d27 0%, var(--color-green-dark) 38%, var(--color-green-abyss) 100%);
+  border-top: 1px solid rgba(235, 148, 64, 0.32);
+}
+
+.contact__ring { border-color: rgba(245, 238, 223, 0.16); }
+.contact__ring::before { border-color: rgba(235, 148, 64, 0.42); }
+
+.home-final {
+  background:
+    radial-gradient(800px 480px at 82% 20%, rgba(31, 163, 92, 0.28), transparent 62%),
+    linear-gradient(150deg, var(--color-green-deep), var(--color-green-abyss));
+  border-top: 1px solid rgba(235, 148, 64, 0.3);
+}
+.home-final__title em { color: var(--color-gold-light); }
+
+.footer {
+  background: var(--color-green-abyss);
+  color: var(--color-cream);
+  border-top: 1px solid rgba(235, 148, 64, 0.32);
+}
+.footer__company { color: var(--color-cream); }
+.footer__pro { color: var(--color-gold-light); }
+.footer__text, .footer__credit, .footer__year { color: rgba(245, 238, 223, 0.72); }
+.footer__heading { color: var(--color-gold); }
+.footer__grid { border-bottom-color: rgba(245, 238, 223, 0.14); }
+.footer__nav a { color: rgba(245, 238, 223, 0.82); }
+.footer__nav a:hover { color: var(--color-gold-light); border-color: var(--color-gold); }
+.footer__nav a.active { color: var(--color-gold-light); }
+.footer__link { color: var(--color-gold-light); border-bottom-color: rgba(235, 148, 64, 0.6); }
+.footer__link:hover { color: #fff; }
+
+/* Nav sobre fundo verde */
+.nav--solid {
+  background: rgba(7, 31, 21, 0.86);
+  border-bottom: 1px solid rgba(235, 148, 64, 0.24);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+body[data-page="inicio"] .nav:not(.nav--solid) .nav__name,
+body[data-page="empresa"] .nav:not(.nav--solid) .nav__name,
+body[data-page="processo"] .nav:not(.nav--solid) .nav__name { color: var(--color-cream); }
+body[data-page="inicio"] .nav:not(.nav--solid) .nav__links a,
+body[data-page="empresa"] .nav:not(.nav--solid) .nav__links a,
+body[data-page="processo"] .nav:not(.nav--solid) .nav__links a { color: rgba(245, 238, 223, 0.78); }
+body[data-page="inicio"] .nav:not(.nav--solid) .nav__toggle span,
+body[data-page="empresa"] .nav:not(.nav--solid) .nav__toggle span,
+body[data-page="processo"] .nav:not(.nav--solid) .nav__toggle span { background: var(--color-cream); }
+.nav--solid .nav__name { color: var(--color-cream); }
+.nav--solid .nav__links a { color: rgba(245, 238, 223, 0.72); }
+.nav--solid .nav__links a:hover, .nav--solid .nav__links a.active { color: var(--color-gold-light); }
+.nav--solid .nav__links a::after { background: var(--color-gold); }
+.nav--solid .nav__toggle span { background: var(--color-cream); }
+
+/* ── Botões: hierarquia verde / ouro / laranja ──────────────────────────── */
+
+.btn--ink {
+  background: var(--color-green-dark);
+  color: var(--color-cream);
+  box-shadow: 0 10px 24px rgba(10, 46, 31, 0.28);
+}
+.btn--ink:hover {
+  background: var(--color-green);
+  color: #fff;
+}
+
+.cover .btn--ink,
+.contact .btn--bronze,
+.home-final .btn--ink {
+  background: linear-gradient(135deg, var(--color-gold-light) 0%, var(--color-gold) 42%, var(--color-orange) 100%);
+  color: #241300;
+  border: none;
+  box-shadow: 0 14px 34px rgba(228, 106, 42, 0.32), 0 2px 0 rgba(255, 255, 255, 0.4) inset;
+}
+.cover .btn--ink:hover,
+.contact .btn--bronze:hover,
+.home-final .btn--ink:hover {
+  filter: brightness(1.06);
+  color: #1a0e00;
+}
+
+.btn--bronze {
+  background: linear-gradient(135deg, var(--color-gold) 0%, #d9822b 55%, var(--color-orange) 130%);
+  color: #221300;
+}
+.btn--bronze:hover { filter: brightness(1.07); color: #1a0e00; }
+
+.cover .btn--ghost,
+.contact .btn--ghost {
+  border-color: rgba(245, 238, 223, 0.42);
+  color: var(--color-cream);
+}
+.cover .btn--ghost:hover,
+.contact .btn--ghost:hover {
+  border-color: var(--color-gold-light);
+  color: var(--color-gold-light);
+}
+
+.btn--ghost {
+  border-color: rgba(10, 46, 31, 0.28);
+}
+.btn--ghost:hover {
+  border-color: var(--color-green);
+  color: var(--color-green-deep);
+}
+
+:focus-visible { outline-color: var(--color-gold); }
+.contact :focus-visible { outline-color: var(--color-gold-light); }
+
+.service-row:hover { background: rgba(20, 83, 45, 0.06); }
+.service-row:hover .service-row__name { color: var(--color-green-deep); }
+.service-row__number, .service-row__category, .service-cta { color: var(--color-green); }
+.service-cta:hover { color: var(--color-orange); }
+.home-teaser__title em, .company__title, .cover__title em { color: var(--color-green); }
+.cover__title em { color: var(--color-gold-light); }
+.company__chip { border-color: rgba(20, 83, 45, 0.22); color: var(--color-green-deep); }
+.company__chip:hover { border-color: var(--color-gold); }
+.company__slogan-card { background: linear-gradient(150deg, var(--color-green-deep), var(--color-green-abyss)); }
+.company__slogan-card .company__card-tag { background: var(--color-gold); }
+
+/* ── Responsivo: reorganiza, não só encolhe ─────────────────────────────── */
+
+@media (max-width: 900px) {
+  .acad-bg__glow--gold, .acad-bg__glow--orange { opacity: 0.7; }
+  .cover { align-items: flex-end; }
+}
+
+@media (max-width: 560px) {
+  .acad-lines { opacity: 0.6; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .acad-tech { transition: none; }
+}
+
+/* ==========================================================================
+   CAMADA 2 — Universo técnico acadêmico (círculos, arcos, blueprint)
+   + hierarquia laranja queimado + ritmo verde por página
+   ========================================================================== */
+
+/* Tech blueprint: anéis de construção abstratos */
+.acad-tech {
+  position: absolute;
+  right: -10%;
+  top: -6%;
+  width: min(760px, 62vw);
+  opacity: 0.55;
+  will-change: transform;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.3));
+}
+
+.acad-tech--soft { opacity: 0.38; }
+.acad-tech--faint { opacity: 0.2; }
+
+.acad-tech svg { width: 100%; height: auto; display: block; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .acad-tech--spin svg { animation: tech-rotate 70s linear infinite; transform-origin: 68% 38%; }
+}
+
+@keyframes tech-rotate { to { transform: rotate(360deg); } }
+
+/* Seções claras ganham blueprint esmaecido sem poluir leitura */
+.services--page, .process--page, .company {
+  position: relative;
+  overflow: hidden;
+}
+
+.acad-faint {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  background:
+    radial-gradient(560px 360px at 88% 8%, rgba(46, 125, 82, 0.22), transparent 65%),
+    radial-gradient(420px 300px at 92% 88%, rgba(205, 107, 43, 0.16), transparent 62%);
+}
+
+.acad-faint::before {
+  content: "";
+  position: absolute;
+  right: -140px;
+  top: -140px;
+  width: 420px;
+  height: 420px;
+  border: 1px solid rgba(20, 83, 45, 0.3);
+  border-radius: 50%;
+}
+
+.acad-faint::after {
+  content: "";
+  position: absolute;
+  right: -70px;
+  top: -70px;
+  width: 280px;
+  height: 280px;
+  border: 1px dashed rgba(205, 107, 43, 0.4);
+  border-radius: 50%;
+}
+
+.services--page > *, .process--page > *, .company > * { position: relative; z-index: 1; }
+
+/* Títulos: detalhe editorial laranja proposital */
+.page-hero__eyebrow::before,
+.cover__eyebrow::before,
+.kicker::before { background: var(--orange-light); }
+
+.page-hero__title em,
+.cover__title em,
+.home-final__title em { color: var(--orange-light); }
+
+body[data-page="servicos"] .page-hero__title em,
+body[data-page="contato"] .page-hero__title em,
+.services__title em, .process__title em { color: var(--orange-hover); }
+
+.company__name {
+  position: relative;
+  padding-left: 22px;
+}
+
+.company__name::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.12em;
+  bottom: 0.12em;
+  width: 4px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--orange-light), var(--orange-hover));
+}
+
+/* Serviços: números laranja, linha que cresce no hover */
+.service-row__number { color: var(--orange-hover); font-variant-numeric: tabular-nums; }
+.service-row { overflow: hidden; }
+.service-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--orange-light), var(--orange-hover));
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.service-row:hover::before { transform: scaleY(1); }
+.service-row__category { color: var(--orange-hover); }
+.service-cta { color: var(--green-dark); }
+.service-cta:hover { color: var(--orange-hover); }
+
+/* Como funciona: continuidade 01→04 */
+.process__steps::before { background: rgba(20, 83, 45, 0.25); }
+.process__steps::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: linear-gradient(180deg, var(--orange-light), var(--orange-hover) 60%, transparent);
+  opacity: 0.55;
+}
+
+.process-step::before { border-color: var(--orange); background: var(--cream); box-shadow: 0 0 0 5px rgba(205, 107, 43, 0.14); }
+.process-step__number { color: var(--orange-hover); }
+
+/* Botões: verde profundo + laranja queimado + creme */
+.btn--ink { background: var(--green-dark); color: var(--cream); }
+.btn--ink:hover { background: var(--green); color: #fff; }
+
+.btn--bronze {
+  background: linear-gradient(135deg, var(--orange-light) 0%, var(--orange) 60%, var(--orange-hover) 130%);
+  color: #231100;
+  box-shadow: 0 12px 28px rgba(205, 107, 43, 0.32);
+}
+
+.cover .btn--ink,
+.contact .btn--bronze,
+.home-final .btn--ink,
+.home-final .btn--bronze {
+  background: linear-gradient(135deg, #f7bf77 0%, var(--orange-light) 45%, var(--orange) 100%);
+  color: #231100;
+}
+
+.btn--ghost { border: 1px solid rgba(10, 46, 31, 0.3); color: var(--green-dark); }
+.btn--ghost:hover { border-color: var(--orange); color: var(--orange-hover); }
+
+.cover .btn--ghost, .contact .btn--ghost, .home-final .btn--ghost {
+  border-color: rgba(245, 238, 223, 0.4);
+  color: var(--cream);
+}
+
+.cover .btn--ghost:hover, .contact .btn--ghost:hover, .home-final .btn--ghost:hover {
+  border-color: var(--orange-light);
+  color: var(--orange-light);
+}
+
+/* Footer: continuação natural, detalhes laranja sutis */
+.footer { background: #050f0a; }
+.footer__heading { color: var(--orange-light); }
+.footer__heading::after {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 2px;
+  margin-top: 8px;
+  background: var(--orange);
+  border-radius: 1px;
+}
+
+/* Ritmo verde por página: quase-preto → floresta → esmeralda */
+body[data-page="empresa"] .company { background: linear-gradient(180deg, var(--off-white) 0%, #e2e8d8 100%); }
+body[data-page="servicos"] .services--page { background: linear-gradient(180deg, var(--paper-deep) 0%, var(--cream) 55%, #dfe7d8 100%); }
+
+@media (max-width: 900px) {
+  .acad-tech { right: -42%; top: -10%; width: min(560px, 120vw); opacity: 0.34; }
+  .acad-faint { opacity: 0.1; }
+  .company__name { padding-left: 16px; }
+}
+
+@media (max-width: 560px) {
+  .acad-tech { opacity: 0.24; }
+  .process__steps::after { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .acad-tech--spin svg { animation: none; }
+  .service-row::before { transition: none; }
+}
+
+/* ── Menu mobile + header na nova identidade ───────────────────────────── */
+
+.menu-mobile {
+  background: linear-gradient(160deg, var(--green-dark), var(--green-deep));
+  border-left: 1px solid rgba(235, 148, 64, 0.25);
+}
+
+.menu-mobile__links a {
+  color: var(--text-light);
+  border-bottom-color: rgba(245, 238, 223, 0.14);
+}
+
+.menu-mobile__links a::after { color: var(--orange-light); }
+.menu-mobile__links a:hover, .menu-mobile__links a.active { color: var(--orange-light); }
+.menu-mobile__foot { color: rgba(245, 238, 223, 0.7); }
+.menu-mobile__phone { color: var(--orange-light); }
+
+.nav__links a.active { color: var(--orange); }
+.nav__links a::after { background: var(--orange); }
+
+/* Botões: foco/active acessíveis no verde */
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible { outline: 2px solid var(--orange-light); outline-offset: 3px; }
+
+/* ==========================================================================
+   EMBLEMA INTERATIVO — logo da Assessoria Company no Hero da Home
+   Composição editorial: texto à esquerda, marca à direita. A imagem original
+   é preservada (object-fit: contain, sem filtros de cor, sem distorção).
+   ========================================================================== */
+
+.cover__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(36px, 6vw, 72px);
+  align-items: center;
+}
+
+.cover__main { min-width: 0; }
+
+.cover__stage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
+}
+
+@media (min-width: 960px) {
+  .cover__grid { grid-template-columns: 1.08fr 0.92fr; }
+  .cover__stage { justify-content: flex-end; }
+}
+
+.emblem {
+  width: min(400px, 100%);
+  aspect-ratio: 1 / 1;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  perspective: 1200px;
+}
+
+.emblem:focus-visible {
+  outline: 2px solid var(--orange-light);
+  outline-offset: 6px;
+  border-radius: 26px;
+}
+
+@media (max-width: 959px) {
+  .emblem { width: min(300px, 74vw); }
+}
+
+.emblem.is-held { cursor: grabbing; }
+
+.emblem__float {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.emblem__tilt {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.emblem__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 26px;
+  border: 1px solid rgba(235, 148, 64, 0.35);
+  box-shadow:
+    var(--shx, 0px) calc(30px + var(--shy, 0px)) 60px -22px rgba(0, 0, 0, 0.6),
+    0 0 90px rgba(201, 106, 43, 0.14);
+  transition: box-shadow 0.3s ease;
+  pointer-events: none;
+  transform: translateZ(40px);
+}
+
+.emblem.is-held .emblem__img {
+  box-shadow:
+    var(--shx, 0px) calc(38px + var(--shy, 0px)) 70px -20px rgba(0, 0, 0, 0.65),
+    0 0 110px rgba(201, 106, 43, 0.2);
+}
+
+.emblem__sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.25), transparent 65%);
+  mix-blend-mode: soft-light;
+  transform: translateZ(60px);
+}
+
+.emblem:hover .emblem__sheen,
+.emblem.is-held .emblem__sheen,
+.emblem:focus-visible .emblem__sheen { opacity: 1; }
+
+/* ==========================================================================
+   FUNDO VERDE GLOBAL — todas as páginas em verde profundo
+   Ritmo: quase-preto → floresta → esmeralda, textos claros por cima.
+   Conteúdos e fotos intactos; só o ambiente muda.
+   ========================================================================== */
+
+body {
+  background: var(--green-deep);
+  color: var(--text-light);
+}
+
+/* Heros claros viram verde profundo */
+body[data-page="servicos"] .page-hero,
+body[data-page="contato"] .page-hero {
+  color: var(--text-light);
+  background:
+    radial-gradient(700px 420px at 82% 18%, rgba(46, 125, 82, 0.32), transparent 62%),
+    radial-gradient(560px 380px at 90% 88%, rgba(201, 106, 43, 0.2), transparent 60%),
+    linear-gradient(155deg, #0e3d27 0%, var(--green-dark) 45%, var(--green-deep) 100%);
+}
+
+body[data-page="servicos"] .page-hero__title,
+body[data-page="contato"] .page-hero__title { color: var(--text-light); }
+body[data-page="servicos"] .page-hero__title em,
+body[data-page="contato"] .page-hero__title em { color: var(--orange-light); }
+body[data-page="servicos"] .page-hero__sub,
+body[data-page="contato"] .page-hero__sub { color: rgba(245, 238, 223, 0.82); }
+body[data-page="servicos"] .breadcrumb,
+body[data-page="contato"] .breadcrumb { color: rgba(245, 238, 223, 0.7); }
+body[data-page="servicos"] .breadcrumb a,
+body[data-page="contato"] .breadcrumb a { color: var(--orange-light); }
+body[data-page="servicos"] .page-hero__eyebrow,
+body[data-page="contato"] .page-hero__eyebrow { color: var(--orange-light); }
+
+/* Serviços / processo / empresa / sobre / contato: fundo verde */
+.services, .services--page {
+  background:
+    radial-gradient(800px 420px at 88% 6%, rgba(46, 125, 82, 0.22), transparent 62%),
+    radial-gradient(560px 360px at 8% 95%, rgba(201, 106, 43, 0.12), transparent 60%),
+    linear-gradient(180deg, #0c3524 0%, var(--green-dark) 55%, var(--green-deep) 100%);
+  color: var(--text-light);
+}
+
+.process, .process--page {
+  background:
+    radial-gradient(760px 400px at 10% 8%, rgba(46, 125, 82, 0.24), transparent 62%),
+    radial-gradient(520px 340px at 92% 90%, rgba(201, 106, 43, 0.12), transparent 60%),
+    linear-gradient(180deg, var(--green-dark) 0%, var(--green-deep) 100%);
+  color: var(--text-light);
+}
+
+.company {
+  background:
+    radial-gradient(720px 400px at 90% 4%, rgba(46, 125, 82, 0.2), transparent 62%),
+    linear-gradient(180deg, #0c3524 0%, var(--green-deep) 100%);
+  color: var(--text-light);
+}
+
+body[data-page="empresa"] .company { background:
+  radial-gradient(720px 400px at 90% 4%, rgba(46, 125, 82, 0.2), transparent 62%),
+  linear-gradient(180deg, #0c3524 0%, var(--green-deep) 100%);
+}
+body[data-page="servicos"] .services--page { background:
+  radial-gradient(800px 420px at 88% 6%, rgba(46, 125, 82, 0.22), transparent 62%),
+  linear-gradient(180deg, #0c3524 0%, var(--green-deep) 100%);
+}
+
+.about, .about--company {
+  background:
+    radial-gradient(680px 420px at 10% 12%, rgba(46, 125, 82, 0.22), transparent 62%),
+    linear-gradient(180deg, var(--green-dark) 0%, var(--green-deep) 100%);
+  color: var(--text-light);
+  border-top: 1px solid rgba(235, 148, 64, 0.22);
+}
+
+.eco { background: var(--green-deep); }
+.eco__line { background: rgba(245, 238, 223, 0.16); }
+.eco__pill {
+  color: var(--orange-light);
+  border-color: rgba(235, 148, 64, 0.4);
+  background: rgba(235, 148, 64, 0.08);
+}
+.eco__text { color: rgba(245, 238, 223, 0.72); }
+
+.home-teaser, .home-company {
+  background:
+    radial-gradient(700px 380px at 88% 10%, rgba(46, 125, 82, 0.2), transparent 62%),
+    linear-gradient(180deg, var(--green-dark), var(--green-deep));
+  color: var(--text-light);
+  border-top: 1px solid rgba(245, 238, 223, 0.12);
+}
+
+/* Textos claros sobre o verde */
+.services__title, .process__title, .about__title, .company__name,
+.home-teaser__title, .home-company__title { color: var(--text-light); }
+.services__subtitle, .process__note, .about__body, .company__intro,
+.company__para, .home-teaser__desc, .home-company__desc { color: rgba(245, 238, 223, 0.8); }
+.services__title em, .process__title em { color: var(--orange-light); }
+.kicker, .company__kicker, .company__since { color: var(--orange-light); }
+.company__year-num, .home-company__year-num, .home-teaser__year-num { color: var(--text-light); }
+.company__year-caption, .home-company__year-label { color: var(--orange-light); }
+.company__values-title, .company__coverage-title,
+.about__field-label, .about__email-label, .role-label { color: var(--orange-light); }
+.company__value-label, .role-text, .about__field-value { color: var(--text-light); }
+.company__value-text { color: rgba(245, 238, 223, 0.78); }
+.about__areas-text { color: var(--orange-light); }
+.about__caption { color: var(--orange-light); }
+.about__email, .home-company__link, .home-teaser__link { color: var(--orange-light); border-bottom-color: var(--orange); }
+.service-row { border-top-color: rgba(245, 238, 223, 0.14); }
+.service-row:last-child { border-bottom-color: rgba(245, 238, 223, 0.14); }
+.service-row:hover { background: rgba(245, 238, 223, 0.05); }
+.service-row__name { color: var(--text-light); }
+.service-row:hover .service-row__name { color: var(--orange-light); }
+.service-row__desc, .process-step__desc { color: rgba(245, 238, 223, 0.76); }
+.process-step { border-top-color: rgba(245, 238, 223, 0.14); }
+.process-step:last-child { border-bottom-color: rgba(245, 238, 223, 0.14); }
+.process__steps::before { background: rgba(245, 238, 223, 0.16); }
+.process-step__title { color: var(--text-light); }
+.company__values, .company__value, .about__roles li, .about__fields .about__field { border-color: rgba(245, 238, 223, 0.14); }
+.company__top { border-color: rgba(245, 238, 223, 0.14); }
+.home-teaser__sample, .home-teaser__sample-item, .home-steps, .home-steps__item { border-color: rgba(245, 238, 223, 0.14); }
+.home-teaser__sample-name, .home-steps__text { color: var(--text-light); }
+.home-teaser__card-note { color: rgba(245, 238, 223, 0.72); }
+.company__chip {
+  color: var(--text-light);
+  border-color: rgba(235, 148, 64, 0.45);
+  background: rgba(235, 148, 64, 0.08);
+}
+.company__chip:hover { border-color: var(--orange-light); }
+
+/* Cards claros seguem como ilhas de contraste sobre o verde */
+.company__logo-card, .company__photo-card { background: var(--off-white); color: var(--text-dark); }
+
