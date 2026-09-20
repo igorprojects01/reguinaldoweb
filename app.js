@@ -634,6 +634,53 @@
     if (fy) fy.textContent = String(new Date().getFullYear());
   }
 
+  // ── Analytics: eventos de intenção comercial (Vercel Web Analytics) ──
+  // Pageviews são automáticos via snippet no <head> de cada página.
+  // Aqui registramos só a ação (nome + origem/serviço) — nenhum dado pessoal.
+  function trackEvent(name, data) {
+    try {
+      if (typeof window !== "undefined" && typeof window.va === "function") {
+        window.va("event", data ? { name: name, data: data } : { name: name });
+      }
+    } catch (_) { /* analytics nunca pode quebrar o site */ }
+  }
+
+  // CTAs cujo texto é explicitamente "Solicitar orçamento"
+  var ORCAMENTO_CTAS = {
+    "hero-cta": "hero",
+    "company-cta": "empresa",
+    "contact-whatsapp-card": "contato-card"
+  };
+
+  function initAnalyticsEvents() {
+    document.addEventListener("click", function (e) {
+      var link = e.target && e.target.closest ? e.target.closest("a") : null;
+      if (!link) return;
+      var href = link.getAttribute("href") || "";
+
+      // "Consultar orçamento" de cada serviço — identifica só o serviço
+      if (link.classList.contains("service-cta")) {
+        var label = link.getAttribute("aria-label") || "";
+        var service = label.indexOf("—") !== -1
+          ? label.split("—")[1].trim()
+          : "servico";
+        trackEvent("consultar_servico", { servico: service });
+        return;
+      }
+      if (link.id && ORCAMENTO_CTAS[link.id]) {
+        trackEvent("solicitar_orcamento", { origem: ORCAMENTO_CTAS[link.id] });
+        return;
+      }
+      if (href.indexOf("wa.me/") !== -1) {
+        trackEvent("abrir_whatsapp", { origem: link.id || "whatsapp" });
+        return;
+      }
+      if (href.indexOf("mailto:") === 0) {
+        trackEvent("contato_email", {});
+      }
+    });
+  }
+
   // ── Transição sutil entre páginas ────────────────────────────
   function initPageTransition() {
     requestAnimationFrame(function () {
@@ -1206,6 +1253,7 @@
     initGlare();
     initClickSpark();
     initPageTransition();
+    initAnalyticsEvents();
   }
 
   document.addEventListener("DOMContentLoaded", init);

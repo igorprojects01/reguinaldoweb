@@ -1,0 +1,5 @@
+# Dependências locais — nunca commitar
+node_modules/
+
+# Saída do CLI da Vercel
+.vercel
