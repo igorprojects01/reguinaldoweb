@@ -19,26 +19,37 @@
   function setPhoto(containerId, src, alt, fallbackText, className) {
     var container = el(containerId);
     if (!container) return;
-    var existing = container.querySelector("img.photo-img, .photo-fallback");
-    if (existing) existing.remove();
+
+    var existingImg = container.querySelector("img.photo-img");
+    if (existingImg) {
+      if (src) existingImg.src = src;
+      if (alt) existingImg.alt = alt;
+      container.classList.add("has-img");
+      container.classList.remove("is-empty");
+      return;
+    }
+
+    var existingFallback = container.querySelector(".photo-fallback");
+    if (existingFallback) existingFallback.remove();
 
     var img = document.createElement("img");
     img.className = "photo-img " + (className || "");
     img.alt = alt || "";
     img.loading = "lazy";
     img.onload = function () {
-      container.appendChild(img);
       container.classList.add("has-img");
       container.classList.remove("is-empty");
     };
     img.onerror = function () {
+      img.remove();
       var span = document.createElement("span");
       span.className = "photo-fallback";
       span.textContent = fallbackText || "Foto";
-      container.appendChild(span);
+      container.insertBefore(span, container.firstChild);
       container.classList.add("is-empty");
     };
     img.src = src;
+    container.insertBefore(img, container.firstChild);
   }
 
   function arrowSpan() {
@@ -257,31 +268,15 @@
     if (exists("company-coverage-label")) el("company-coverage-label").textContent = c.coverageLabel;
     if (exists("company-slogan")) el("company-slogan").textContent = c.slogan;
 
-    // Logo + imagem institucional (facilmente substituíveis via CONFIG)
-    var logoWrap = el("company-logo");
-    if (logoWrap) {
-      logoWrap.innerHTML = "";
-      var logoImg = document.createElement("img");
-      logoImg.alt = c.logoAlt || c.name;
-      logoImg.loading = "lazy";
-      logoImg.className = "company__logo-img";
-      logoImg.onload = function () { logoWrap.classList.add("has-img"); };
-      logoImg.onerror = function () {
-        logoWrap.classList.add("is-empty");
-        var fb = document.createElement("span");
-        fb.className = "company__logo-fallback";
-        fb.textContent = c.shortName || c.name;
-        logoWrap.appendChild(fb);
-      };
-      logoImg.src = c.companyLogo;
-      // só anexa se carregar; se erro, o fallback entra
-      logoImg.onload = function () {
-        logoWrap.appendChild(logoImg);
-        logoWrap.classList.add("has-img");
-      };
+    // Imagem de fundo da seção empresa (CONFIG.company.companyBackground)
+    var companySec = document.querySelector(".company");
+    if (companySec && c.companyBackground) {
+      companySec.style.setProperty("--company-bg", "url(\"" + c.companyBackground + "\")");
+      if (c.companyBackgroundOverlay) {
+        companySec.style.setProperty("--company-overlay", c.companyBackgroundOverlay);
+      }
+      companySec.classList.add("has-bg");
     }
-
-    setPhoto("company-photo", c.companyImage, c.companyImageAlt, c.name, "company__img");
 
     // CTA da empresa
     var cta = el("company-cta");
@@ -328,18 +323,27 @@
     var fields = el("about-fields");
     if (fields) {
       fields.innerHTML = "";
-      a.fields.forEach(function (f) {
-        var div = document.createElement("div");
-        div.className = "about__field";
-        var lab = document.createElement("span");
-        lab.className = "about__field-label";
-        lab.textContent = f.label;
-        var val = document.createElement("span");
-        val.className = "about__field-value";
-        val.textContent = f.value;
-        div.appendChild(lab);
-        div.appendChild(val);
-        fields.appendChild(div);
+      var allFields = (a.fields || []).slice();
+      if (p.formation && p.formation.indexOf("[EDITAR") === -1) {
+        allFields.push({ label: "Formação", value: p.formation });
+      }
+      if (p.experience && p.experience.indexOf("[EDITAR") === -1) {
+        allFields.push({ label: "Experiência", value: p.experience });
+      }
+      allFields.forEach(function (f) {
+        if (f.value && f.value.indexOf("[EDITAR") === -1) {
+          var div = document.createElement("div");
+          div.className = "about__field";
+          var lab = document.createElement("span");
+          lab.className = "about__field-label";
+          lab.textContent = f.label;
+          var val = document.createElement("span");
+          val.className = "about__field-value";
+          val.textContent = f.value;
+          div.appendChild(lab);
+          div.appendChild(val);
+          fields.appendChild(div);
+        }
       });
     }
 
@@ -352,13 +356,31 @@
     }
 
     var cap = el("about-caption");
-    if (cap) cap.textContent = p.name;
+    // Populate mini biography
+    var mini = el("about-mini-bio");
+    if (mini) {
+      var mb = CONFIG.about.miniBio || {};
+      var miniHtml = '';
+      if (mb.kicker) miniHtml += '<p class="kicker kicker--light">' + mb.kicker + '</p>';
+      if (mb.title) miniHtml += '<h3 class="about__mini-title">' + mb.title + '</h3>';
+      if (mb.text) miniHtml += '<p class="about__mini-text">' + mb.text + '</p>';
+      mini.innerHTML = miniHtml;
+    }
+    if (cap) {
+      var nameStr = (p.name || "Reginaldo Guedes").toUpperCase();
+      if (cap.tagName.toLowerCase() === "textpath") {
+        cap.textContent = nameStr + " • " + nameStr + " • ";
+      } else {
+        cap.textContent = p.name;
+      }
+    }
     var fn = el("about-frame-note");
     if (fn) fn.textContent = p.frameNote;
     var areasEl = el("about-areas");
     if (areasEl && a.areas) { areasEl.textContent = a.areas.join(" · "); }
 
-    setPhoto("about-photo", p.aboutPhoto, p.photoAlt, "Foto de Reginaldo", "about__img");
+    var photoPath = p.aboutPhoto || p.photo || "public/images/reguinaldo1.png";
+    setPhoto("about-photo", photoPath, p.photoAlt || "Reginaldo Guedes", "Reginaldo Guedes", "about__img");
   }
 
   // ── Serviços ─────────────────────────────────────────────────

@@ -4,11 +4,11 @@
 // outros arquivos para mudar textos, imagens, serviços ou contatos.
 // ------------------------------------------------------------
 // COMO TROCAR IMAGENS:
-// - companyLogo  → logo da Assessoria Company
-// - companyImage → imagem institucional da empresa
+// - companyLogo       → logo da Assessoria Company
+// - companyBackground → imagem de fundo da seção "Conheça nossa empresa"
 // - heroPhoto / aboutPhoto → fotos de Reginaldo
 // Basta trocar o caminho do arquivo. Ex.:
-// companyImage: "public/images/assessoria-company.jpg"
+// companyBackground: "public/images/minha-foto-formatura.jpg"
 // ============================================================
 
 const CONFIG = {
@@ -28,12 +28,13 @@ const CONFIG = {
       "Foco em apoio acadêmico",
     ],
     email: "professorreginaldoguedes@gmail.com",
-    aboutPhoto: "public/images/reginaldo1.png",  // FOTO DE REGINALDO — seção aprovada em "Conheça nossa empresa"
-    photoAlt: "Retrato do professor Reginaldo Guedes",
-    photoCaption: "Professor Reginaldo Guedes",
+    photo: "public/images/reguinaldo1.png",       // FOTO DE REGINALDO — troque aqui se desejar
+    aboutPhoto: "public/images/reguinaldo1.png",  // FOTO DE REGINALDO — seção "Conheça nossa empresa"
+    photoAlt: "Reginaldo Guedes",
+    photoCaption: "Reginaldo Guedes",
     frameNote: "Professor de Filosofia e Ensino Religioso",
-    formation: "[EDITAR — Ex.: Licenciatura em Filosofia]", // campo editável
-    experience: "[EDITAR — Ex.: Anos de experiência no ambiente acadêmico]", // campo editável
+    formation: "[EDITAR — Ex.: Licenciatura em Filosofia]", // campo editável: preencha com a sua formação
+    experience: "[EDITAR — Ex.: Anos de experiência no ambiente acadêmico]", // campo editável: preencha com a sua experiência
   },
 
   // ── Empresa — Assessoria Company ───────────────────────────
@@ -46,11 +47,12 @@ const CONFIG = {
     foundedBadge: "Desde",
     slogan: "Sua Jornada Acadêmica com Suporte Profissional!",
     // ▼▼▼ TROQUE OS ARQUIVOS AQUI ▼▼▼
-    companyLogo: "public/images/logo.png",       // LOGO oficial da Assessoria Company
-    companyImage: "public/images/assessoria-company.jpg",   // IMAGEM institucional (troque pelo arquivo real)
-    companyImageAlt: "Imagem institucional da Assessoria Company",
-    logoAlt: "Logotipo da Assessoria Company",
+    companyLogo: "public/images/logo.png",       // LOGO do navbar (só ícone)
+    companyLogoFull: "public/images/logo2.png",  // LOGO completa (ícone + texto)
+    companyBackground: "public/images/graduation-bg.jpg",   // Imagem de fundo da seção empresa
+    companyBackgroundOverlay: "rgba(6, 42, 22, 0.90)",       // Overlay verde-floresta profundo (0.0–1.0 — ajuste a opacidade)
     // ▲▲▲ FIM DA ÁREA DE TROCA ▲▲▲
+    logoAlt: "Logotipo da Assessoria Company",
     eyebrow: "Conheça nossa empresa",
     title: "Suporte, consultoria e orientação para a sua trajetória acadêmica.",
     intro:
@@ -138,8 +140,15 @@ const CONFIG = {
       "Como professor de Filosofia e Ensino Religioso e escritor, conheço de perto a disciplina que um bom trabalho exige: pesquisa, estrutura, argumento e escrita clara. Dedico essa experiência ao apoio de estudantes universitários que precisam de companhia competente para transformar ideias em trabalhos bem conduzidos.",
     emailLabel: "E-mail para contato",
 
+    // Mini biografia exibida na coluna esquerda acima da foto
+    miniBio: {
+      kicker: "Mini Biografia",
+      title: "Docência, reflexão e rigor na escrita acadêmica.",
+      text: "Com trajetória dedicada ao ensino e à produção intelectual, o Professor Reginaldo Guedes alia o rigor metodológico a um acompanhamento próximo e individualizado. Seu trabalho orienta estudantes universitários na estruturação de pesquisas, artigos e trabalhos acadêmicos com clareza conceitual e conformidade técnica.",
+    },
+
     // Áreas de atuação — bloco decorativo acima da foto (separadas por "·")
-    areas: ["Filosofia", "Ensino Religioso", "Escrita Acadêmica"],
+    areas: ["RELIGIOSO", "ESCRITA ACADÊMICA"],
 
     // Informações de perfil exibidas como lista editorial
     roles: [

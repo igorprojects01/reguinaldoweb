@@ -698,9 +698,33 @@ blockquote, cite {
 .about__container {
   max-width: 1360px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(48px, 7vw, 96px);
+}
+
+.about__top-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(48px, 7vw, 96px);
+  gap: clamp(40px, 6vw, 64px);
+}
+
+@media (min-width: 1024px) {
+  .about__top-grid {
+    grid-template-columns: 1fr 1.1fr;
+    align-items: start;
+    gap: 64px;
+  }
+}
+
+.about__photo .photo-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center top;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--r-card);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -741,66 +765,166 @@ blockquote, cite {
 }
 
 .about__frame {
-  /* Moldura da FOTO 2 — sem fundo: o PNG aparece direto sobre o site */
   position: relative;
-  background: transparent;
-  background-color: transparent;
-  border: none;
-  border-radius: 0;
-  overflow: visible;
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 1 / 1;
+  background: rgba(14, 45, 30, 0.7);
+  border-radius: 20px;
+  border: 1px solid rgba(235, 148, 64, 0.35);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
+  margin: 0 auto;
 }
 
-.about__frame::after {
-  content: "";
+.about__frame img,
+.about__frame .photo-img,
+.about__img {
   position: absolute;
-  right: -26px;
-  bottom: -26px;
-  width: 84px;
-  height: 84px;
-  border: 1px solid var(--bronze);
-  border-radius: 50%;
-  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 19px;
+  display: block;
+}
+
+.about__frame .photo-fallback {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 19px;
+  color: var(--orange-light, #e09953);
+  font-size: 0.95rem;
+  font-weight: 500;
+  background: rgba(10, 36, 24, 0.6);
+}
+
+/* Etiqueta inferior esquerda ancorada no container da foto */
+.about__frame-note {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 4;
+  background: rgba(6, 23, 15, 0.94);
+  color: #F5EEDF;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(235, 148, 64, 0.45);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+  max-width: calc(100% - 130px);
+  overflow: hidden;
+  text-overflow: ellipsis;
   pointer-events: none;
 }
 
-.about__frame img {
-  /* Ajuste fino da FOTO 2 — recorte inteiro, ancorado na base, sem distorcer */
-  position: relative;
-  width: min(100%, 440px);
-  height: auto;
-  max-height: 620px;
-  object-fit: contain;
-  object-position: center bottom;
-  z-index: 1;
-  filter: drop-shadow(0 26px 26px rgba(36, 28, 18, 0.22));
+/* Selo inferior direito ancorado no container da foto */
+.about__caption-seal {
+  position: absolute;
+  right: -16px;
+  bottom: -16px;
+  width: 105px;
+  height: 105px;
+  z-index: 5;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.4));
 }
 
-.about__frame-note {
-  position: absolute;
-  left: 22px;
-  bottom: 22px;
-  z-index: 2;
-  background: var(--ink);
-  color: var(--paper);
-  font-size: 0.8rem;
+.rotating-seal {
+  width: 100%;
+  height: 100%;
+  animation: spin-seal 14s linear infinite;
+  transform-origin: center;
+}
+
+.rotating-seal text {
+  font-family: var(--serif, Georgia, serif);
+  font-size: 10px;
+  fill: var(--orange-light, #e09953);
+  letter-spacing: 0.12em;
   font-weight: 600;
-  letter-spacing: 0.02em;
-  padding: 10px 16px;
-  border-radius: 999px;
+  text-transform: uppercase;
 }
 
-.about__caption {
-  position: absolute;
-  right: -20px;
-  top: 50%; /* centralizado verticalmente em relação à altura da imagem */
-  transform: translateY(-50%);
-  z-index: 3;
-  writing-mode: vertical-rl;
+@keyframes spin-seal {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ── Novo layout esquerdo e inferior ── */
+.about__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .about__bottom {
+    flex-direction: row;
+    gap: 64px;
+    align-items: start;
+  }
+  .about__bottom-left, .about__bottom-right {
+    flex: 1;
+  }
+}
+
+.about__bottom-title {
   font-family: var(--serif);
-  font-style: italic;
+  font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+  line-height: 1.35;
+  margin-top: 12px;
+}
+.about--company .about__bottom-title { color: var(--text-light); }
+.about--company .about__bottom-title em { color: var(--text-light); font-style: italic; }
+
+.about__bottom-desc {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-top: 16px;
+}
+.about--company .about__bottom-desc { color: rgba(245, 238, 223, 0.8); }
+
+.about__bottom-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.about__bottom-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-size: 0.95rem;
-  letter-spacing: 0.14em;
-  color: var(--brown);
+}
+.about--company .about__bottom-list li { color: rgba(245, 238, 223, 0.85); }
+
+.about__list-marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.about--company .about__list-marker {
+  background: rgba(235, 148, 64, 0.15);
+  color: var(--orange-light);
 }
 
 .about__content {
@@ -1697,7 +1821,90 @@ blockquote, cite {
    ========================================================================== */
 
 .company {
+  position: relative;
   padding: clamp(24px, 4vw, 48px) var(--pad) var(--section-y);
+  isolation: isolate;
+  /* Fallback de cor caso a imagem não carregue */
+  background-color: var(--paper);
+}
+
+/* Camada de imagem + overlay verde — editável via CONFIG.company.companyBackground */
+.company::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    /* Verde-esmeralda floresta: esquerda sólido (textos) → direita tintado (imagem visível) */
+    linear-gradient(
+      to right,
+      rgba(4, 58, 24, 0.88) 0%,
+      rgba(4, 58, 24, 0.78) 45%,
+      rgba(4, 58, 24, 0.64) 100%
+    ),
+    var(--company-bg, none);
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  will-change: opacity;
+}
+
+
+/* ── Adaptação de cores para fundo escuro (ativa quando há imagem configurada) ── */
+.company.has-bg .company__top {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+.company.has-bg .company__kicker {
+  color: var(--bronze-light);
+}
+.company.has-bg .company__since {
+  color: rgba(255, 255, 255, 0.55);
+}
+.company.has-bg .company__name {
+  color: var(--white);
+}
+.company.has-bg .company__title {
+  color: var(--bronze-light);
+}
+.company.has-bg .company__year {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+.company.has-bg .company__year-num {
+  color: var(--white);
+}
+.company.has-bg .company__year-caption {
+  color: var(--bronze-light);
+}
+.company.has-bg .company__intro {
+  color: rgba(255, 255, 255, 0.9);
+}
+.company.has-bg .company__para {
+  color: rgba(255, 255, 255, 0.65);
+}
+.company.has-bg .company__values-title,
+.company.has-bg .company__coverage-title {
+  color: var(--bronze-light);
+}
+.company.has-bg .company__values {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+.company.has-bg .company__value {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+.company.has-bg .company__value-label {
+  color: var(--white);
+}
+.company.has-bg .company__value-text {
+  color: rgba(255, 255, 255, 0.62);
+}
+.company.has-bg .company__chip {
+  color: var(--paper);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.company.has-bg .company__chip:hover {
+  border-color: var(--bronze-light);
+  background: rgba(255, 255, 255, 0.13);
 }
 
 .company__container {
@@ -1923,22 +2130,30 @@ blockquote, cite {
 }
 
 .company__logo {
-  min-height: 120px;
+  min-height: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px dashed var(--line);
   border-radius: 12px;
-  padding: 20px;
+  padding: 24px;
 }
 
-.company__logo.has-img { border-style: solid; }
+.company__logo.has-img {
+  border: none;
+}
+
+/* Quando vazio e sem fallback, mostra borda tracejada */
+.company__logo:not(.has-img):not(.is-empty) {
+  border: 1px dashed var(--line);
+}
 
 .company__logo-img {
-  max-height: 110px;
+  max-width: 80%;
+  max-height: 70%;
   width: auto;
-  max-width: 100%;
+  height: auto;
   object-fit: contain;
+  mix-blend-mode: multiply;
 }
 
 .company__logo-fallback {
@@ -3454,7 +3669,8 @@ body[data-page="servicos"] .services--page { background:
 .company__year-caption, .home-company__year-label { color: var(--orange-light); }
 .company__values-title, .company__coverage-title,
 .about__field-label, .about__email-label, .role-label { color: var(--orange-light); }
-.company__value-label, .role-text, .about__field-value { color: var(--text-light); }
+.company__value-label, .role-text { color: var(--text-light); }
+.about--company .about__field-value, .about__field-value { color: rgba(245, 238, 223, 0.9); }
 .company__value-text { color: rgba(245, 238, 223, 0.78); }
 .about__areas-text { color: var(--orange-light); }
 .about__caption { color: var(--orange-light); }
@@ -3483,4 +3699,46 @@ body[data-page="servicos"] .services--page { background:
 
 /* Cards claros seguem como ilhas de contraste sobre o verde */
 .company__logo-card, .company__photo-card { background: var(--off-white); color: var(--text-dark); }
+
+/* ════════════════════════════════════════════════════════════
+   Seção 02 — Conheça Reginaldo (empresa.html): contraste e legibilidade
+   ════════════════════════════════════════════════════════════ */
+.about--company .about__roles,
+.about--company .about__roles li,
+.about--company .about__fields,
+.about--company .about__fields .about__field {
+  border-color: rgba(245, 238, 223, 0.15) !important;
+}
+
+.about--company .about__roles .role-label,
+.about--company .about__roles li .role-label,
+.about--company .role-label,
+.about--company .about__field-label {
+  color: var(--orange-light, #e09953) !important;
+  font-weight: 600;
+}
+
+.about--company .about__roles .role-text,
+.about--company .about__roles li .role-text,
+.about--company .role-text,
+.about--company .about__field-value {
+  color: rgba(245, 238, 223, 0.95) !important;
+  font-weight: 400;
+}
+
+.about--company .about__title {
+  color: var(--text-light, #fbf7ee);
+}
+
+.about--company .about__body {
+  color: rgba(245, 238, 223, 0.85);
+}
+
+.about--company .about__email-label {
+  color: var(--orange-light, #e09953);
+}
+
+.about--company .about__email {
+  color: var(--orange-light, #e09953);
+}
 
