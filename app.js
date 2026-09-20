@@ -445,7 +445,7 @@
 
   function serviceCta(item) {
     var link = document.createElement("a");
-    link.className = "service-cta";
+    link.className = "service-cta glow-btn";
     link.href = waUrl(item.whatsappMessage);
     link.target = "_blank";
     link.rel = "noopener noreferrer";
@@ -730,7 +730,7 @@
   }
 
   function initGlare() {
-    var targets = document.querySelectorAll(".btn");
+    var targets = document.querySelectorAll(".btn, .service-cta");
     targets.forEach(function (elm) {
       if (elm.querySelector(":scope > .btn-glare")) return;
       var computed = window.getComputedStyle(elm);

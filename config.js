@@ -56,7 +56,7 @@ const CONFIG = {
     eyebrow: "Conheça nossa empresa",
     title: "Suporte, consultoria e orientação para a sua trajetória acadêmica.",
     intro:
-      "A Assessoria Company é uma empresa dedicada ao suporte, à consultoria e à orientação acadêmica — criada para acompanhar estudantes na organização e no desenvolvimento de suas atividades ao longo de toda a trajetória educacional.",
+      "A Assessoria Company é uma empresa dedicada ao suporte, à consultoria e à orientação acadêmica — criada para acompanhar estudantes na organização e no desenvolvimento de suas atividades ao longo da trajetória educacional.",
     paragraphs: [
       "Nosso trabalho é conduzido com compromisso, qualidade, responsabilidade, sigilo e atendimento personalizado. Oferecemos orientação para TCCs, projetos, artigos, relatórios de estágio, planos de aula, atividades acadêmicas, trabalhos científicos, apresentações e diversos outros serviços.",
       "Antes de cada entrega, buscamos compreender as necessidades de cada estudante para propor um acompanhamento organizado, claro e alinhado às exigências da sua instituição de ensino.",
@@ -102,7 +102,7 @@ const CONFIG = {
     idLine: "Apoio acadêmico para o seu percurso universitário",
     roleLine: "Professor de Filosofia e Ensino Religioso · Escritor",
     subtitle:
-      "Suporte na elaboração, revisão e formatação de trabalhos acadêmicos, com a condução e o rigor de quem vive o universo acadêmico.",
+      "Suporte na elaboração, revisão e formatação de trabalhos acadêmicos, com o rigor de quem vive o universo acadêmico.",
     cta: "Solicitar orçamento",
     ctaSecondary: "Conhecer serviços",
     ctaSecondaryHref: "servicos.html",
@@ -117,7 +117,7 @@ const CONFIG = {
     eyebrow: "Assessoria Company · Desde 2022",
     // Espaço do logo: exibe CONFIG.company.companyLogo; se o arquivo
     // ainda não existir, o espaço fica oculto até o logo ser adicionado.
-    exploreLine: "Uma porta de entrada — explore o site e descubra o restante.",
+    exploreLine: "Uma porta de entrada — explore o site e conheça o restante.",
     ctaPrimary: { label: "Conheça nossa empresa", href: "empresa.html" },
     ctaSecondary: { label: "Conheça nossos serviços", href: "servicos.html" },
     indexLabel: "Explore",
@@ -137,14 +137,14 @@ const CONFIG = {
     eyebrowText: "Conheça Reginaldo",
     title: "Professor, escritor e apoio acadêmico para quem está na universidade.",
     body:
-      "Como professor de Filosofia e Ensino Religioso e escritor, conheço de perto a disciplina que um bom trabalho exige: pesquisa, estrutura, argumento e escrita clara. Dedico essa experiência ao apoio de estudantes universitários que precisam de companhia competente para transformar ideias em trabalhos bem conduzidos.",
+      "Como professor de Filosofia e Ensino Religioso e escritor, conheço de perto a disciplina que um bom trabalho exige: pesquisa, estrutura, argumento e escrita clara. Dedico essa experiência ao apoio de estudantes universitários que precisam de acompanhamento competente para transformar ideias em trabalhos bem conduzidos.",
     emailLabel: "E-mail para contato",
 
     // Mini biografia exibida na coluna esquerda acima da foto
     miniBio: {
       kicker: "Mini Biografia",
       title: "Docência, reflexão e rigor na escrita acadêmica.",
-      text: "Com trajetória dedicada ao ensino e à produção intelectual, o Professor Reginaldo Guedes alia o rigor metodológico a um acompanhamento próximo e individualizado. Seu trabalho orienta estudantes universitários na estruturação de pesquisas, artigos e trabalhos acadêmicos com clareza conceitual e conformidade técnica.",
+      text: "Com trajetória dedicada ao ensino e à produção intelectual, o professor Reginaldo Guedes alia o rigor metodológico a um acompanhamento próximo e individualizado. Seu trabalho orienta estudantes universitários na estruturação de pesquisas, artigos e trabalhos acadêmicos com clareza conceitual e conformidade técnica.",
     },
 
     // Áreas de atuação — bloco decorativo acima da foto (separadas por "·")
@@ -177,7 +177,7 @@ const CONFIG = {
         name: "TCC",
         category: "Trabalho de conclusão",
         description:
-          "Acompanhamento na elaboração do seu Trabalho de Conclusão de Curso, do plano à versão final.",
+          "Acompanhamento na elaboração do seu Trabalho de Conclusão de Curso, do planejamento à versão final.",
         whatsappMessage:
           "Olá, Reginaldo! Tudo bem? Gostaria de conversar sobre um orçamento para apoio na elaboração do meu TCC.",
       },
@@ -186,7 +186,7 @@ const CONFIG = {
         name: "Relatório de estágio",
         category: "Relatório",
         description:
-          "Estruturação e revisão de relatórios de estágio com organização e apresentação profissional.",
+          "Estruturação e revisão de relatórios de estágio, com apresentação clara e profissional.",
         whatsappMessage:
           "Olá, Reginaldo! Tudo bem? Gostaria de conversar sobre um orçamento para apoio no meu relatório de estágio.",
       },
@@ -204,7 +204,7 @@ const CONFIG = {
         name: "Projetos de pesquisa",
         category: "Pesquisa",
         description:
-          "Elaboração e revisão de projetos, incluindo justificativa, metodologia e cronograma.",
+          "Elaboração e revisão de projetos de pesquisa, incluindo justificativa, metodologia e cronograma.",
         whatsappMessage:
           "Olá, Reginaldo! Tudo bem? Gostaria de um orçamento para elaboração de projeto de pesquisa.",
       },
@@ -213,7 +213,7 @@ const CONFIG = {
         name: "Trabalhos acadêmicos",
         category: "Entrega",
         description:
-          "Elaboração assistida de trabalhos acadêmicos em geral, com estrutura, conteúdo e coerência.",
+          "Elaboração assistida de trabalhos acadêmicos em geral, com estrutura, coerência e conteúdo consistente.",
         whatsappMessage:
           "Olá, Reginaldo! Tudo bem? Gostaria de saber mais sobre seus serviços para trabalhos acadêmicos.",
       },
@@ -231,7 +231,7 @@ const CONFIG = {
         name: "Estruturação de trabalhos",
         category: "Organização",
         description:
-          "Organização do conteúdo, definição de seções e fluxo argumentativo alinhados ao seu tema.",
+          "Organização do conteúdo, definição de seções e fluxo argumentativo alinhado ao seu tema.",
         whatsappMessage:
           "Olá, Reginaldo! Tudo bem? Preciso de ajuda para estruturar um trabalho acadêmico. Podemos conversar?",
       },
@@ -258,7 +258,7 @@ const CONFIG = {
         name: "Organização e revisão de documentos",
         category: "Documentos",
         description:
-          "Revisão e adequação de documentos acadêmicos para consistência, clareza e conformidade.",
+          "Revisão e adequação de documentos acadêmicos para garantir consistência, clareza e conformidade.",
         whatsappMessage:
           "Olá, Reginaldo! Tudo bem? Preciso revisar e adequar um documento acadêmico. Qual seria o orçamento?",
       },
@@ -296,7 +296,7 @@ const CONFIG = {
           "Com base na demanda, você recebe o serviço certo e os valores sem surpresa.",
       },
       {
-        title: "O trabalho é estruturado conforme a necessidade",
+        title: "Estruturamos o trabalho conforme a sua necessidade",
         description:
           "Acompanhamos a estruturação e a entrega, com revisão atenta até o final.",
       },
