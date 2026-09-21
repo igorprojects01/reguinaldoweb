@@ -16,6 +16,22 @@
     return message ? base + "?text=" + encodeURIComponent(message) : base;
   }
 
+  // ── Links centralizados (não espalhar URLs pelo código) ──────
+  function instagramUrl() {
+    return (CONFIG.social && CONFIG.social.instagram) || "https://www.instagram.com/assessoria.comcompany/";
+  }
+  function emailSubject() {
+    return (CONFIG.social && CONFIG.social.emailSubject) || "Orçamento — apoio acadêmico";
+  }
+  function gmailUrl() {
+    var to = CONFIG.professional.email;
+    return "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(to) +
+      "&su=" + encodeURIComponent(emailSubject());
+  }
+  function mailtoUrl() {
+    return "mailto:" + CONFIG.professional.email + "?subject=" + encodeURIComponent(emailSubject());
+  }
+
   function setPhoto(containerId, src, alt, fallbackText, className) {
     var container = el(containerId);
     if (!container) return;
@@ -72,6 +88,45 @@
   }
 
   // ── Cabeçalho multipágina (marca: Assessoria Company) ─────────
+  // Ícones sociais SVG (traço fino, herdam currentColor — mesma linguagem do site)
+  function socialSvg(kind) {
+    if (kind === "instagram") {
+      return '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>';
+    }
+    if (kind === "whatsapp") {
+      return '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.5L4 20.5l1.2-3.7a8.5 8.5 0 1 1 15.3-5z"/><path d="M9.2 8.6c.3-.7.6-.7.9-.7h.7c.2 0 .5 0 .7.6l.9 2c.1.3 0 .6-.2.8l-.6.7c.5 1.1 1.3 1.9 2.4 2.4l.7-.6c.2-.2.5-.3.8-.2l2 .9c.5.2.6.5.6.7v.7c0 .3 0 .6-.7.9-.5.2-1.5.5-3 .1-1.9-.5-3.9-1.9-5.2-3.9-1-1.6-1.4-3.2-1.2-4.2.1-.5.4-.7.7-1z" stroke-width="1.2"/></svg>';
+    }
+    return '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>';
+  }
+
+  function renderHeaderSocial() {
+    var side = document.querySelector(".nav__side");
+    if (!side || side.querySelector(".nav__social")) return;
+    var toggle = el("nav-toggle");
+    var wrap = document.createElement("div");
+    wrap.className = "nav__social";
+    wrap.setAttribute("aria-label", "Redes sociais e contato");
+    var items = [
+      { kind: "instagram", label: "Instagram da Assessoria Company", href: instagramUrl(), blank: true },
+      { kind: "whatsapp", label: "Conversar no WhatsApp", href: waUrl(CONFIG.contact.whatsappMessage), blank: true },
+      { kind: "email", label: "Escrever e-mail pelo Gmail", href: gmailUrl(), blank: true },
+    ];
+    items.forEach(function (s) {
+      var a = document.createElement("a");
+      a.className = "nav__social-link";
+      a.href = s.href;
+      a.setAttribute("aria-label", s.label);
+      a.title = s.label;
+      if (s.blank) { a.target = "_blank"; a.rel = "noopener noreferrer"; }
+      a.innerHTML = socialSvg(s.kind);
+      wrap.appendChild(a);
+    });
+    if (toggle) side.insertBefore(wrap, toggle);
+    else side.appendChild(wrap);
+  }
+
+  function serviceAnchor(item) { return "servicos.html#service-" + item.id; }
+
   function renderNav() {
     var p = CONFIG.professional;
     var brand = el("nav-name");
@@ -109,6 +164,7 @@
 
     CONFIG.nav.forEach(function (item) {
       var isActive = item.page === currentPage;
+      var isServices = item.page === "servicos";
 
       if (list) {
         var a = document.createElement("a");
@@ -120,24 +176,84 @@
           a.setAttribute("aria-current", "page");
         }
         var li = document.createElement("li");
-        li.appendChild(a);
+        if (isServices) {
+          li.className = "nav__item nav__item--has-sub";
+          a.setAttribute("aria-haspopup", "true");
+          li.appendChild(a);
+          var sub = document.createElement("ul");
+          sub.className = "nav__submenu";
+          sub.setAttribute("aria-label", "Serviços oferecidos");
+          CONFIG.services.items.forEach(function (svc) {
+            var sli = document.createElement("li");
+            var sa = document.createElement("a");
+            sa.href = serviceAnchor(svc);
+            sa.textContent = svc.name;
+            sa.setAttribute("aria-label", svc.name + " — ir para o serviço");
+            sli.appendChild(sa);
+            sub.appendChild(sli);
+          });
+          li.appendChild(sub);
+        } else {
+          li.appendChild(a);
+        }
         list.appendChild(li);
       }
 
       if (mobileList) {
-        var m = document.createElement("a");
-        m.href = item.href;
-        m.textContent = item.label;
-        m.dataset.page = item.page;
-        if (isActive) {
-          m.classList.add("active");
-          m.setAttribute("aria-current", "page");
-        }
         var mli = document.createElement("li");
-        mli.appendChild(m);
+        if (isServices) {
+          mli.className = "menu-mobile__item--has-sub";
+          var row = document.createElement("div");
+          row.className = "menu-mobile__row";
+          var m = document.createElement("a");
+          m.href = item.href;
+          m.textContent = item.label;
+          m.dataset.page = item.page;
+          if (isActive) {
+            m.classList.add("active");
+            m.setAttribute("aria-current", "page");
+          }
+          row.appendChild(m);
+          var caret = document.createElement("button");
+          caret.type = "button";
+          caret.className = "menu-mobile__caret";
+          caret.setAttribute("aria-label", "Expandir serviços");
+          caret.setAttribute("aria-expanded", "false");
+          caret.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3.5 6l4.5 4.5L12.5 6"/></svg>';
+          caret.addEventListener("click", function () {
+            var open = mli.classList.toggle("open");
+            caret.setAttribute("aria-expanded", open ? "true" : "false");
+            caret.setAttribute("aria-label", open ? "Recolher serviços" : "Expandir serviços");
+          });
+          row.appendChild(caret);
+          mli.appendChild(row);
+          var msub = document.createElement("ul");
+          msub.className = "menu-mobile__submenu";
+          CONFIG.services.items.forEach(function (svc) {
+            var sli = document.createElement("li");
+            var sa = document.createElement("a");
+            sa.href = serviceAnchor(svc);
+            sa.textContent = svc.name;
+            sli.appendChild(sa);
+            msub.appendChild(sli);
+          });
+          mli.appendChild(msub);
+        } else {
+          var m2 = document.createElement("a");
+          m2.href = item.href;
+          m2.textContent = item.label;
+          m2.dataset.page = item.page;
+          if (isActive) {
+            m2.classList.add("active");
+            m2.setAttribute("aria-current", "page");
+          }
+          mli.appendChild(m2);
+        }
         mobileList.appendChild(mli);
       }
     });
+
+    renderHeaderSocial();
 
     var mmPhone = el("menu-mobile-phone");
     if (mmPhone) mmPhone.textContent = "Falar no WhatsApp";
@@ -295,8 +411,6 @@
 
     var label = el("about-label");
     if (label) label.textContent = a.label;
-    var num = el("about-number");
-    if (num) num.textContent = a.eyebrowNumber;
     var et = el("about-eyebrow-text");
     if (et) et.textContent = a.eyebrowText;
 
@@ -403,6 +517,8 @@
     items.forEach(function (item, i) {
       var row = document.createElement("li");
       row.className = "service-row";
+      row.id = "service-" + item.id;
+      row.tabIndex = -1;
       row.setAttribute("data-ghost", item.name);
 
       var number = document.createElement("span");
@@ -438,9 +554,15 @@
       holder.appendChild(row);
     });
 
-    // Contador editorial "11 serviços" se existir
-    var count = el("services-count");
-    if (count) count.textContent = String(s.items.length).padStart(2, "0");
+    // Âncora direta (ex.: servicos.html#service-tcc): rola após renderizar
+    if (window.location && window.location.hash) {
+      var target = document.querySelector(window.location.hash);
+      if (target && target.scrollIntoView) {
+        setTimeout(function () {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 120);
+      }
+    }
   }
 
   function serviceCta(item) {
@@ -581,7 +703,7 @@
       if (waCard) waCard.href = waUrl(c.whatsappMessage);
       var waNote = el("contact-whatsapp-note");
       if (waNote) waNote.textContent = "Atendimento direto com Reginaldo, sem compromisso.";
-      var mailto = "mailto:" + p.email + "?subject=" + encodeURIComponent("Orçamento — apoio acadêmico");
+      var mailto = mailtoUrl();
       var emAddr = el("contact-email-address");
       if (emAddr) {
         emAddr.textContent = p.email;
@@ -589,6 +711,14 @@
       }
       var emCard = el("contact-email-card");
       if (emCard) emCard.href = mailto;
+      // Instagram na página de contato (mesmo perfil do cabeçalho/rodapé)
+      var igCard = el("contact-instagram-card");
+      if (igCard) igCard.href = instagramUrl();
+      var igAddr = el("contact-instagram-address");
+      if (igAddr) {
+        igAddr.textContent = "@assessoria.comcompany";
+        igAddr.href = instagramUrl();
+      }
     }
 
     var ft = el("footer-text");
@@ -626,7 +756,11 @@
     var fem = el("footer-email");
     if (fem) {
       fem.textContent = CONFIG.professional.email;
-      fem.href = "mailto:" + CONFIG.professional.email;
+      fem.href = mailtoUrl();
+    }
+    var fig = el("footer-instagram");
+    if (fig) {
+      fig.href = instagramUrl();
     }
 
     // Ano dinâmico no rodapé, se houver

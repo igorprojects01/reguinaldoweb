@@ -87,6 +87,13 @@ const CONFIG = {
     display: "83 8122-2707",
   },
 
+  // ── Social / contato centralizado ────────────────────────────
+  // Reutilize estes campos em vez de espalhar URLs pelo código.
+  social: {
+    instagram: "https://www.instagram.com/assessoria.comcompany/",
+    emailSubject: "Orçamento — apoio acadêmico",
+  },
+
   // ── Navegação multipágina ────────────────────────────────
   // page = identificador usado em <body data-page="..."> para marcar o item ativo
   nav: [
@@ -114,7 +121,7 @@ const CONFIG = {
   // ── Home (capa editorial da Assessoria Company) ──────────
   // A frase principal da Home é CONFIG.hero.subtitle (mantida EXATAMENTE como está).
   home: {
-    eyebrow: "Assessoria Company · Desde 2022",
+    eyebrow: "Suporte para sua jornada acadêmica",
     // Espaço do logo: exibe CONFIG.company.companyLogo; se o arquivo
     // ainda não existir, o espaço fica oculto até o logo ser adicionado.
     exploreLine: "Uma porta de entrada — explore o site e conheça o restante.",
@@ -133,7 +140,6 @@ const CONFIG = {
   // ── Sobre Reginaldo (usado na página Empresa, parte 02) ──
   about: {
     label: "Sobre",
-    eyebrowNumber: "02",
     eyebrowText: "Conheça Reginaldo",
     title: "Professor, escritor e apoio acadêmico para quem está na universidade.",
     body:
