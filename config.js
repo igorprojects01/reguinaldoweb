@@ -1,10 +1,10 @@
 // ============================================================
-// CONFIGURAÇÃO CENTRAL — Site multipágina Assessoria Company
+// CONFIGURAÇÃO CENTRAL — Site multipágina Assessoria.com Company
 // Edite TODAS as informações aqui. Não é necessário alterar
 // outros arquivos para mudar textos, imagens, serviços ou contatos.
 // ------------------------------------------------------------
 // COMO TROCAR IMAGENS:
-// - companyLogo       → logo da Assessoria Company
+// - companyLogo       → logo da Assessoria.com Company
 // - companyBackground → imagem de fundo da seção "Conheça nossa empresa"
 // - heroPhoto / aboutPhoto → fotos de Reginaldo
 // Basta trocar o caminho do arquivo. Ex.:
@@ -37,11 +37,11 @@ const CONFIG = {
     experience: "[EDITAR — Ex.: Anos de experiência no ambiente acadêmico]", // campo editável: preencha com a sua experiência
   },
 
-  // ── Empresa — Assessoria Company ───────────────────────────
+  // ── Empresa — Assessoria.com Company ───────────────────────────
   // ★ EDITE AQUI: logo, imagem, ano, textos institucionais ★
   company: {
-    name: "Assessoria Company",
-    shortName: "Assessoria Company",
+    name: "Assessoria.com Company",
+    shortName: "Assessoria.com Company",
     foundedYear: "2022",
     foundedLabel: "Início da nossa trajetória",
     foundedBadge: "Desde",
@@ -52,11 +52,11 @@ const CONFIG = {
     companyBackground: "public/images/graduation-bg.jpg",   // Imagem de fundo da seção empresa
     companyBackgroundOverlay: "rgba(6, 42, 22, 0.90)",       // Overlay verde-floresta profundo (0.0–1.0 — ajuste a opacidade)
     // ▲▲▲ FIM DA ÁREA DE TROCA ▲▲▲
-    logoAlt: "Logotipo da Assessoria Company",
+    logoAlt: "Logotipo da Assessoria.com Company",
     eyebrow: "Conheça nossa empresa",
     title: "Suporte, consultoria e orientação para a sua trajetória acadêmica.",
     intro:
-      "A Assessoria Company é uma empresa dedicada ao suporte, à consultoria e à orientação acadêmica — criada para acompanhar estudantes na organização e no desenvolvimento de suas atividades ao longo da trajetória educacional.",
+      "A Assessoria.com Company é uma empresa dedicada ao suporte, à consultoria e à orientação acadêmica — criada para acompanhar estudantes na organização e no desenvolvimento de suas atividades ao longo da trajetória educacional.",
     paragraphs: [
       "Nosso trabalho é conduzido com compromisso, qualidade, responsabilidade, sigilo e atendimento personalizado. Oferecemos orientação para TCCs, projetos, artigos, relatórios de estágio, planos de aula, atividades acadêmicas, trabalhos científicos, apresentações e diversos outros serviços.",
       "Antes de cada entrega, buscamos compreender as necessidades de cada estudante para propor um acompanhamento organizado, claro e alinhado às exigências da sua instituição de ensino.",
@@ -118,7 +118,7 @@ const CONFIG = {
     scrollHint: "Role para conhecer o trabalho",
   },
 
-  // ── Home (capa editorial da Assessoria Company) ──────────
+  // ── Home (capa editorial da Assessoria.com Company) ──────────
   // A frase principal da Home é CONFIG.hero.subtitle (mantida EXATAMENTE como está).
   home: {
     eyebrow: "Suporte para sua jornada acadêmica",
@@ -322,7 +322,7 @@ const CONFIG = {
 
   // ── Rodapé ──────────────────────────────────────────────────
   footer: {
-    text: "Assessoria Company — Suporte, consultoria e orientação acadêmica",
+    text: "Assessoria.com Company — Suporte, consultoria e orientação acadêmica",
     credit: "Atendimento para estudantes universitários",
   },
 };

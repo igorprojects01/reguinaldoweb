@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Assessoria Company — Site institucional editorial
+   Assessoria.com Company — Site institucional editorial
    Design system · papel, tinta e bronze
    ========================================================================== */
 
@@ -2668,7 +2668,7 @@ body.is-leaving main { transform: translateY(8px); transition: transform 0.22s v
 }
 
 /* ==========================================================================
-   CAPA — Home da Assessoria Company (abertura editorial, sem foto)
+   CAPA — Home da Assessoria.com Company (abertura editorial, sem foto)
    ========================================================================== */
 
 .cover {
@@ -2833,7 +2833,7 @@ body[data-page="empresa"] .company__visual {
 }
 
 /* ==========================================================================
-   DIREÇÃO DE ARTE — Verde floresta + ouro + laranja (Assessoria Company)
+   DIREÇÃO DE ARTE — Verde floresta + ouro + laranja (Assessoria.com Company)
    Camada evolutiva: não reconstrói a estrutura, apenas veste o site.
    ========================================================================== */
 
@@ -3463,7 +3463,7 @@ body[data-page="servicos"] .services--page { background: linear-gradient(180deg,
 .btn:focus-visible { outline: 2px solid var(--orange-light); outline-offset: 3px; }
 
 /* ==========================================================================
-   EMBLEMA INTERATIVO — logo da Assessoria Company no Hero da Home
+   EMBLEMA INTERATIVO — logo da Assessoria.com Company no Hero da Home
    Composição editorial: texto à esquerda, marca à direita. A imagem original
    é preservada (object-fit: contain, sem filtros de cor, sem distorção).
    ========================================================================== */

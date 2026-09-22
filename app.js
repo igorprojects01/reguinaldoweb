@@ -1,5 +1,5 @@
 // ============================================================
-// App — Site multipágina Assessoria Company
+// App — Site multipágina Assessoria.com Company
 // Renderiza conteúdo por página, monta WhatsApp e animações
 // O mesmo arquivo funciona em todas as páginas.
 // ============================================================
@@ -87,7 +87,7 @@
     return span;
   }
 
-  // ── Cabeçalho multipágina (marca: Assessoria Company) ─────────
+  // ── Cabeçalho multipágina (marca: Assessoria.com Company) ─────────
   // Ícones sociais SVG (traço fino, herdam currentColor — mesma linguagem do site)
   function socialSvg(kind) {
     if (kind === "instagram") {
@@ -107,7 +107,7 @@
     wrap.className = "nav__social";
     wrap.setAttribute("aria-label", "Redes sociais e contato");
     var items = [
-      { kind: "instagram", label: "Instagram da Assessoria Company", href: instagramUrl(), blank: true },
+      { kind: "instagram", label: "Instagram da Assessoria.com Company", href: instagramUrl(), blank: true },
       { kind: "whatsapp", label: "Conversar no WhatsApp", href: waUrl(CONFIG.contact.whatsappMessage), blank: true },
       { kind: "email", label: "Escrever e-mail pelo Gmail", href: gmailUrl(), blank: true },
     ];
@@ -620,7 +620,7 @@
     });
   }
 
-  // ── Home: capa editorial da Assessoria Company ───────────────
+  // ── Home: capa editorial da Assessoria.com Company ───────────────
   // Frase principal = CONFIG.hero.subtitle (preservada exatamente como está).
   function renderHome() {
     if (!exists("home-title")) return;
