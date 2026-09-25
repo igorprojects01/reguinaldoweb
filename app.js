@@ -23,13 +23,18 @@
   function emailSubject() {
     return (CONFIG.social && CONFIG.social.emailSubject) || "Orçamento — apoio acadêmico";
   }
+  function emailBody() {
+    if (CONFIG.social && CONFIG.social.emailBody) return CONFIG.social.emailBody;
+    return "Olá, Reginaldo!\n\nMeu nome é [seu nome] e gostaria de solicitar um orçamento para apoio acadêmico.\n\nTipo de trabalho: [TCC, artigo, relatório...]\nPrazo: [informe o prazo]\nInstituição de ensino: [informe, se desejar]\n\nAguardo seu retorno. Obrigado(a)!";
+  }
   function gmailUrl() {
     var to = CONFIG.professional.email;
     return "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(to) +
       "&su=" + encodeURIComponent(emailSubject());
   }
   function mailtoUrl() {
-    return "mailto:" + CONFIG.professional.email + "?subject=" + encodeURIComponent(emailSubject());
+    return "mailto:" + CONFIG.professional.email + "?subject=" + encodeURIComponent(emailSubject()) +
+      "&body=" + encodeURIComponent(emailBody());
   }
 
   function setPhoto(containerId, src, alt, fallbackText, className) {
@@ -109,7 +114,7 @@
     var items = [
       { kind: "instagram", label: "Instagram da Assessoria.com Company", href: instagramUrl(), blank: true },
       { kind: "whatsapp", label: "Conversar no WhatsApp", href: waUrl(CONFIG.contact.whatsappMessage), blank: true },
-      { kind: "email", label: "Escrever e-mail pelo Gmail", href: gmailUrl(), blank: true },
+      { kind: "email", label: "Escrever e-mail para a assessoria", href: mailtoUrl(), blank: false },
     ];
     items.forEach(function (s) {
       var a = document.createElement("a");
@@ -258,7 +263,11 @@
     var mmPhone = el("menu-mobile-phone");
     if (mmPhone) mmPhone.textContent = "Falar no WhatsApp";
     var mmEmail = el("menu-mobile-email");
-    if (mmEmail) mmEmail.textContent = p.email;
+    if (mmEmail) {
+      mmEmail.textContent = p.email;
+      // Se for link (vai direto ao e-mail), garante o mailto com assunto+corpo
+      if (mmEmail.tagName && mmEmail.tagName.toLowerCase() === "a") mmEmail.href = mailtoUrl();
+    }
 
     initMobileMenu();
   }
@@ -303,6 +312,10 @@
     });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && isOpen()) close();
+    });
+    // Se voltar ao desktop com o menu aberto, fecha para não conflitar
+    window.addEventListener("resize", function () {
+      if (window.innerWidth >= 1024 && isOpen()) close();
     });
   }
 
@@ -481,7 +494,7 @@
     var email = el("about-email");
     if (email) {
       email.textContent = p.email;
-      email.href = "mailto:" + p.email;
+      email.href = mailtoUrl();
     }
 
     var cap = el("about-caption");
@@ -702,7 +715,7 @@
       var email = el("contact-email");
       if (email) {
         email.textContent = p.email;
-        email.href = "mailto:" + p.email;
+        email.href = mailtoUrl();
       }
 
       var sign = el("contact-sign");

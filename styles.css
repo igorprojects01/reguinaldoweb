@@ -4248,3 +4248,61 @@ html.has-motion .rv.in { opacity: 1; transform: translateY(0) scale(1); }
   .company__chip { font-size: 0.8rem; padding: 8px 13px; }
 }
 
+/* ==========================================================================
+   CORREÇÃO CIRÚRGICA — menu hambúrguer mobile (sem alterar desktop/visual)
+   Causas tratadas: empilhamento (z-index), sobreposição, área de toque,
+   compressão da marca em telas estreitas e contraste sobre o header escuro.
+   ========================================================================== */
+
+/* Desktop: preserva navegação atual, nunca exibe o hambúrguer */
+@media (min-width: 1024px) {
+  .nav__toggle { display: none !important; }
+  .menu-mobile { display: none !important; }
+}
+
+/* Mobile: garante botão visível, acima do painel e com toque confortável */
+@media (max-width: 1023px) {
+  .nav__inner {
+    position: relative;
+    z-index: 2;
+  }
+  .nav__brand {
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+  .nav__name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .nav__side {
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+  .nav__toggle {
+    position: relative;
+    z-index: 3;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+  }
+  /* Header é escuro em todas as páginas: tracinhos sempre claros */
+  .nav__toggle span {
+    background: var(--color-cream, #f2ead8);
+  }
+  /* Painel acima do conteúdo da página, abaixo da barra (botão clicável) */
+  .menu-mobile {
+    z-index: 1;
+    pointer-events: none;
+  }
+  .menu-mobile.open {
+    pointer-events: auto;
+  }
+  .menu-mobile__links a {
+    min-height: 60px;
+  }
+}
+
