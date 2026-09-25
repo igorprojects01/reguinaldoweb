@@ -267,27 +267,42 @@
     var toggle = el("nav-toggle");
     var menu = el("menu-mobile");
     if (!toggle || !menu) return;
+    if (toggle.dataset.menuBound === "true") return;
+    toggle.dataset.menuBound = "true";
 
+    function isOpen() { return menu.classList.contains("open"); }
     function open() {
       menu.hidden = false;
       requestAnimationFrame(function () { menu.classList.add("open"); });
       toggle.setAttribute("aria-expanded", "true");
+      toggle.setAttribute("aria-label", "Fechar menu");
       document.body.style.overflow = "hidden";
     }
     function close() {
+      if (!isOpen() && menu.hidden) return;
       menu.classList.remove("open");
       toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Abrir menu");
       document.body.style.overflow = "";
-      setTimeout(function () { menu.hidden = true; }, 320);
+      setTimeout(function () { if (!isOpen()) menu.hidden = true; }, 320);
     }
-    toggle.addEventListener("click", function () {
-      if (menu.classList.contains("open")) { close(); } else { open(); }
+    toggle.addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (isOpen()) { close(); } else { open(); }
     });
     menu.addEventListener("click", function (e) {
       if (e.target.closest && e.target.closest("a")) { close(); }
     });
+    // Fecha ao clicar fora do menu (qualquer área fora do botão e do painel)
+    document.addEventListener("click", function (e) {
+      if (!isOpen()) return;
+      var t = e.target;
+      if (t === toggle || (toggle.contains && toggle.contains(t))) return;
+      if (menu.contains && menu.contains(t)) return;
+      close();
+    });
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && menu.classList.contains("open")) close();
+      if (e.key === "Escape" && isOpen()) close();
     });
   }
 
