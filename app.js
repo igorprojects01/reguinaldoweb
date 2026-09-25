@@ -859,12 +859,50 @@
     }, { passive: true });
   }
 
-  // ── Reveal ao rolar ──────────────────────────────────────────
+  // ── Reveal ao rolar (elegante, leve, mobile-first) ─────────────
+  // .reveal = sistema legado (mantido). .rv = entradas suaves de rolagem
+  // aplicadas a blocos que entram no viewport (cards, linhas, etapas).
+  // Só usa transform + opacity (performático) e respeita reduced-motion.
   function initReveal() {
-    var items = document.querySelectorAll(".reveal");
-    if (!items.length) return;
-    if (!("IntersectionObserver" in window)) {
-      items.forEach(function (el2) { el2.classList.add("reveal--visible"); });
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.documentElement.classList.add("has-js");
+    if (!reduce) document.documentElement.classList.add("has-motion");
+
+    var legacy = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+
+    // Blocos animados na rolagem: curadoria discreta (não anima tudo).
+    var scrollSel = ".service-row, .process-step, .channel, " +
+      ".company__value, .company__chip, .home-steps__item, " +
+      ".company__slogan-card, .about__frame, .services__foot, .process__cta";
+    var scrollItems = Array.prototype.slice.call(document.querySelectorAll(scrollSel))
+      .filter(function (elm) { return elm.classList.contains("reveal") === false; });
+    scrollItems.forEach(function (elm) {
+      if (!elm.classList.contains("rv")) elm.classList.add("rv");
+    });
+
+    // Stagger sutil entre irmãos (máx. 3 degraus de 70ms).
+    function stagger(list) {
+      list.forEach(function (elm) {
+        var siblings = elm.parentNode
+          ? Array.prototype.filter.call(elm.parentNode.children, function (c) {
+              return c.classList && (c.classList.contains("rv") || c.classList.contains("reveal"));
+            })
+          : [elm];
+        var idx = siblings.indexOf(elm);
+        if (idx > 0 && idx <= 3 && !elm.style.transitionDelay) {
+          elm.style.transitionDelay = (idx * 70) + "ms";
+        }
+      });
+    }
+    stagger(scrollItems);
+
+    var all = legacy.concat(scrollItems);
+    if (!all.length) return;
+    if (reduce || !("IntersectionObserver" in window)) {
+      all.forEach(function (elm) {
+        elm.classList.add("reveal--visible");
+        elm.classList.add("in");
+      });
       return;
     }
     var observer = new IntersectionObserver(
@@ -872,13 +910,17 @@
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
             entry.target.classList.add("reveal--visible");
+            entry.target.classList.add("in");
+            // Limpa o delay após a entrada para não afetar hovers/focus.
+            var t = entry.target;
+            setTimeout(function () { t.style.transitionDelay = ""; }, 800);
             observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px -8% 0px" }
     );
-    items.forEach(function (elm) { observer.observe(elm); });
+    all.forEach(function (elm) { observer.observe(elm); });
   }
 
   function initGlow() {

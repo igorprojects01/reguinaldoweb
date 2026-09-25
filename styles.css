@@ -4029,3 +4029,209 @@ body[data-page="contato"] .nav__links a.active { color: #fff; }
   .nav__social-link { transition: none; }
 }
 
+/* ==========================================================================
+   REFINO MOBILE-FIRST — experiência própria para smartphones
+   Só reorganiza e dimensiona; identidade, cores e conteúdo intactos.
+   ========================================================================== */
+
+/* Base anti-overflow: nada sai da tela */
+html, body { overflow-x: clip; }
+body { -webkit-text-size-adjust: 100%; }
+img, svg, video { max-width: 100%; }
+section, header, footer, main { min-width: 0; }
+
+/* Animação de rolagem elegante (progressive enhancement).
+   Elementos começam visíveis; só escondem quando há JS + movimento permitido. */
+.rv { opacity: 1; transform: none; }
+html.has-motion .rv {
+  opacity: 0;
+  transform: translateY(22px) scale(0.99);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+html.has-motion .rv.in { opacity: 1; transform: translateY(0) scale(1); }
+@media (prefers-reduced-motion: reduce) {
+  .rv, html.has-motion .rv { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* ── Header / navegação mobile ─────────────────────────────────────── */
+@media (max-width: 1023px) {
+  .nav__inner { height: 68px; gap: 12px; }
+  .nav__name { font-size: clamp(1.02rem, 4.6vw, 1.25rem); overflow: hidden; text-overflow: ellipsis; }
+  .nav__logo img { height: 30px; max-width: 112px; }
+  .nav__side { gap: 10px; }
+  .nav__social-link { width: 40px; height: 40px; }
+  .nav__toggle { width: 48px; height: 48px; }
+  .menu-mobile {
+    height: 100dvh;
+    padding: 104px var(--pad) calc(32px + env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .menu-mobile__links a {
+    font-size: clamp(1.55rem, 7vw, 2.1rem);
+    min-height: 60px;
+    padding: 13px 0;
+  }
+  .menu-mobile__caret { width: 52px; height: 56px; }
+  .menu-mobile__links .menu-mobile__submenu a { min-height: 48px; display: flex; align-items: center; }
+  .menu-mobile__foot { gap: 8px; padding-top: 20px; }
+  .menu-mobile__email { overflow-wrap: anywhere; word-break: break-word; }
+}
+@media (max-width: 480px) {
+  .nav__social { gap: 6px; }
+  .nav__social-link { width: 40px; height: 40px; }
+  .nav__submenu { display: none; }
+}
+
+/* ── Capa / hero mobile: composição vertical própria ───────────────── */
+@media (max-width: 959px) {
+  .cover { min-height: 100svh; align-items: flex-start; padding-top: calc(68px + 40px); }
+  .cover__grid { gap: 30px; }
+  .cover__title { font-size: clamp(2.9rem, 14.5vw, 4.4rem); line-height: 0.95; max-width: 10ch; }
+  .cover__phrase { font-size: clamp(1.08rem, 4.4vw, 1.25rem); line-height: 1.55; max-width: 34ch; }
+  .cover__eyebrow { font-size: 0.74rem; letter-spacing: 0.12em; }
+  .cover__explore { margin-top: 22px; }
+  .cover__actions { gap: 12px; margin-top: 26px; }
+  .cover__stage { order: 2; }
+  .emblem { width: min(280px, 76vw); margin: 0 auto; }
+  .cover__index { margin-top: 36px; padding-top: 18px; }
+  .cover__index a { min-height: 44px; display: inline-flex; align-items: center; padding: 8px 0; }
+}
+@media (max-width: 560px) {
+  .cover__actions { flex-direction: column; align-items: stretch; }
+  .cover__actions .btn { width: 100%; min-height: 54px; font-size: 0.98rem; }
+  .cover__index { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px; }
+  .cover__index-label { grid-column: 1 / -1; margin-bottom: 4px; }
+  .acad-lines { opacity: 0.6; }
+}
+
+/* Botões: área de polegar confortável em todo o site */
+@media (max-width: 767px) {
+  .btn { min-height: 52px; padding: 15px 28px; }
+  .contact__actions, .home-final__actions, .home-teaser__actions,
+  .home-company__actions, .hero__actions { flex-direction: column; align-items: stretch; gap: 12px; }
+  .contact__actions .btn, .home-final__actions .btn,
+  .services__foot .btn, .process__cta .btn { width: 100%; }
+  .contact__email, .footer__link, .channel__mail {
+    overflow-wrap: anywhere; word-break: break-word; line-height: 1.5;
+  }
+}
+
+/* ── Heros internos ────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .page-hero { padding-top: calc(68px + 44px); }
+  .page-hero__title { font-size: clamp(2rem, 9vw, 2.7rem); line-height: 1.04; }
+  .page-hero__sub { font-size: 0.99rem; line-height: 1.65; }
+  .page-hero__eyebrow { font-size: 0.74rem; letter-spacing: 0.11em; }
+  .breadcrumb { flex-wrap: wrap; row-gap: 4px; font-size: 0.82rem; }
+  .kicker { font-size: 1.02rem; }
+}
+
+/* ── Serviços: linhas viram blocos verticais ───────────────────────── */
+@media (max-width: 767px) {
+  .service-row { grid-template-columns: 40px 1fr; gap: 10px 14px; padding: 22px 2px; }
+  .service-row::after { display: none; }
+  .service-row__number { font-size: 0.98rem; padding-top: 4px; }
+  .service-row__name { font-size: clamp(1.35rem, 6vw, 1.7rem); line-height: 1.12; }
+  .service-row__desc { font-size: 0.93rem; line-height: 1.65; }
+  .service-row__action { grid-column: 2; margin-top: 10px; }
+  .services__header { gap: 16px; margin-bottom: 36px; }
+  .services__title { font-size: clamp(1.9rem, 8vw, 2.5rem); }
+  .services__foot { flex-direction: column; align-items: stretch; }
+  .services__foot p { font-size: 1.08rem; }
+}
+
+/* ── Processo: trilha compacta ─────────────────────────────────────── */
+@media (max-width: 767px) {
+  .process-step { padding: 22px 0 22px 50px; }
+  .process__steps::before, .process__steps::after { left: 13px; }
+  .process-step::before { left: 8px; top: 34px; }
+  .process-step__number { font-size: 1.02rem; }
+  .process-step__title { font-size: clamp(1.25rem, 5.4vw, 1.5rem); }
+  .process-step__desc { font-size: 0.93rem; }
+  .process__title { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+}
+
+/* ── Empresa: ano gráfico e cards sem estouro ──────────────────────── */
+@media (max-width: 767px) {
+  .company__top { gap: 8px; padding: 14px 0; }
+  .company__kicker { font-size: 0.74rem; letter-spacing: 0.1em; }
+  .company__name { font-size: clamp(2.1rem, 10vw, 2.9rem); padding-left: 14px; }
+  .company__title { font-size: clamp(1.12rem, 4.8vw, 1.35rem); }
+  .company__year { column-gap: 16px; margin: 26px 0; padding: 18px 0; }
+  .company__year-num { font-size: clamp(3.6rem, 21vw, 5rem); }
+  .company__year-caption { font-size: 0.72rem; letter-spacing: 0.1em; }
+  .company__intro { font-size: 1.08rem; }
+  .company__para { font-size: 0.97rem; line-height: 1.7; }
+  .company__visual { max-width: 100%; }
+  .company__logo-card, .company__photo-card, .company__slogan-card { padding: 22px 18px; }
+  .company__photo { min-height: 260px; }
+  .company__photo-stamp { width: 84px; height: 84px; right: 16px; bottom: 52px; }
+  .company__photo-stamp-year { font-size: 1.2rem; }
+  .company__cta { width: 100%; justify-content: center; }
+  .eco__pill { white-space: normal; text-align: center; line-height: 1.5; }
+}
+
+/* ── Sobre / Reginaldo: foto primeiro no mobile, selo contido ─────── */
+@media (max-width: 1023px) {
+  .about__top-grid { gap: 36px; }
+  .about__frame { width: 100%; max-width: 440px; margin: 0 auto; }
+  .about__caption-seal { right: 8px; bottom: -14px; width: 88px; height: 88px; }
+  .about__frame-note { left: 10px; bottom: 10px; font-size: 0.7rem; max-width: calc(100% - 112px); }
+  .about__mini-bio { max-width: 40ch; }
+}
+@media (max-width: 767px) {
+  .about__title { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+  .about__body { font-size: 0.99rem; }
+  .about__roles li { grid-template-columns: 78px 1fr; gap: 12px; padding: 13px 0; }
+  .about__bottom-title { font-size: clamp(1.2rem, 5.4vw, 1.45rem); }
+  .about__email { font-size: 0.95rem; overflow-wrap: anywhere; word-break: break-word; }
+}
+
+/* ── Canais de contato: painel e faixas empilhados ─────────────────── */
+@media (max-width: 767px) {
+  .channel--primary { padding: 26px 20px; gap: 12px; }
+  .channel--primary .channel__title { font-size: clamp(1.9rem, 9vw, 2.4rem); }
+  .channel--primary .channel__cta { width: 100%; margin-top: 10px; }
+  .channel--secondary { padding: 24px 2px; }
+  .channel--secondary .channel__title { font-size: clamp(1.5rem, 7vw, 1.9rem); }
+  .channel__mail { font-size: clamp(0.98rem, 4.6vw, 1.12rem); }
+  .channel__cta--link { min-height: 48px; }
+}
+
+/* ── Contato final / home-final: títulos sem estouro ───────────────── */
+@media (max-width: 767px) {
+  .contact { padding: 84px var(--pad) 72px; }
+  .contact__title { font-size: clamp(2.1rem, 10.5vw, 3rem); max-width: 14ch; }
+  .contact__subtitle { font-size: clamp(1.05rem, 4.6vw, 1.25rem); }
+  .contact__sign { margin-top: 48px; }
+  .home-final__title { font-size: clamp(1.9rem, 9vw, 2.7rem); }
+  .home-teaser__year-num, .home-teaser__card-num, .home-company__year-num { font-size: clamp(3.4rem, 18vw, 4.6rem); }
+  .home-teaser__year, .home-teaser__card, .home-company__year { border-left: none; border-top: 1px solid rgba(245, 238, 223, 0.14); padding-left: 0; padding-top: 20px; }
+  .home-steps__item { padding: 18px 0; }
+}
+
+/* ── Rodapé: toques folgados, sem e-mail cortado ───────────────────── */
+@media (max-width: 899px) {
+  .footer { padding: 48px var(--pad) calc(32px + env(safe-area-inset-bottom)); }
+  .footer__grid { gap: 28px; }
+  .footer__nav ul { gap: 4px; }
+  .footer__nav a { display: inline-flex; align-items: center; min-height: 44px; }
+  .footer__contact { gap: 6px; }
+  .footer__link { min-height: 44px; display: inline-flex; align-items: center; max-width: 100%; }
+  .footer__base { flex-direction: column; gap: 4px; }
+}
+
+/* Telas muito estreitas (≤360px): respiro extra */
+@media (max-width: 380px) {
+  :root { --pad: 18px; }
+  .cover__title { font-size: clamp(2.6rem, 15vw, 3.4rem); }
+  .service-row { grid-template-columns: 34px 1fr; gap: 8px 10px; }
+  .about__roles li { grid-template-columns: 70px 1fr; }
+  .company__chips { gap: 8px; }
+  .company__chip { font-size: 0.8rem; padding: 8px 13px; }
+}
+
