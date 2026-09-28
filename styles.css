@@ -2660,6 +2660,8 @@ blockquote, cite {
 .footer__base { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding-top: 24px; }
 .footer__credit { font-size: 0.85rem; color: var(--muted); }
 .footer__year { font-size: 0.85rem; color: var(--muted); }
+.footer__dev { margin: 16px 0 0; padding-top: 16px; border-top: 1px solid var(--line); text-align: center; font-size: 0.8rem; line-height: 1.5; color: var(--muted); letter-spacing: 0.01em; }
+.footer__dev strong { font-weight: 700; color: var(--brown-deep); }
 
 /* ==========================================================================
    Transição sutil entre páginas (segura: sem JS a página continua visível)
@@ -3141,7 +3143,9 @@ body[data-page="contato"] .page-hero {
 }
 .footer__company { color: var(--color-cream); }
 .footer__pro { color: var(--color-gold-light); }
-.footer__text, .footer__credit, .footer__year { color: rgba(245, 238, 223, 0.72); }
+.footer__text, .footer__credit, .footer__year, .footer__dev { color: rgba(245, 238, 223, 0.72); }
+.footer__dev { border-top-color: rgba(245, 238, 223, 0.14); }
+.footer__dev strong { color: var(--color-gold-light); }
 .footer__heading { color: var(--color-gold); }
 .footer__grid { border-bottom-color: rgba(245, 238, 223, 0.14); }
 .footer__nav a { color: rgba(245, 238, 223, 0.82); }
